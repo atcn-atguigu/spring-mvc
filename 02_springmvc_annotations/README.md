@@ -129,7 +129,7 @@ public class RequestMappingController_05_ParamsTest {
     @RequestMapping(
             value = {"/canNotHaveParam"},
             method = {RequestMethod.GET},
-            params = {"!skipLogon"}  // 不能携带skipLogon参数，除b以外所有其他参数都再匹配规则
+            params = {"!skipLogon"}  // 不能携带skipLogon参数，除skipLogon以外所有其他参数都再匹配规则
     )
     public String canNotHaveParam() {
         return "success";
@@ -176,3 +176,72 @@ e.g. Parameter conditions "!skipLogon" not met for actual request parameters: sk
 e.g. Parameter conditions "user!=anonymous" not met for actual request parameters: user={anonymous}
 ```
 
+### 6、@RequestMapping注解的headers属性（了解）
+@RequestMapping注解的headers属性通过请求的请求头信息匹配请求映射
+
+@RequestMapping注解的headers属性是一个字符串类型的数组，可以通过四种表达式设置请求头信息和请求映射的匹配关系
+
+“header”：要求请求映射所匹配的请求必须携带header请求头信息
+
+“!header”：要求请求映射所匹配的请求必须不能携带header请求头信息
+
+“header=value”：要求请求映射所匹配的请求必须携带header请求头信息且header=value
+
+“header!=value”：要求请求映射所匹配的请求必须携带header请求头信息且header!=value
+
+```java
+@Controller
+@RequestMapping("/testRequestHeader")
+public class RequestMappingController_06_HeaderTest {
+    
+    @RequestMapping(
+            value = {"/mustHaveHeader"},
+            method = {RequestMethod.GET},
+            headers = {"Accept"}  // 必须携带Accept请求头
+    )
+    public String mustHaveHeader() {
+        return "success";
+    }
+
+    @RequestMapping(
+            value = {"/canNotHaveHeader"},
+            method = {RequestMethod.GET},
+            headers = {"!Upgrade-Insecure-Requests"}  // 不能携带Upgrade-Insecure-Requests请求头，这个浏览器会发
+    )
+    public String canNotHaveHeader() {
+        return "success";
+    }
+
+    @RequestMapping(
+            value = {"/headerKeyValueMatch"},
+            method = {RequestMethod.GET},
+            headers = {"Host=localhost:8080"}  // 请求头Host=localhost:8080
+    )
+    public String headerKeyValueMatch() {
+        return "success";
+    }
+
+    @RequestMapping(
+            value = {"/headerKeyValueNotMatch"},
+            method = {RequestMethod.GET},
+            headers = {"Host!=localhost:8080"}  // 请求头Host!=localhost:8080
+    )
+    public String headerKeyValueNotMatch() {
+        return "success";
+    }
+}
+```
+```xml
+<h3>@RequestMapping注解的"header"属性</h3>
+<a th:href="@{/testRequestHeader/mustHaveHeader}">测试@RequestMapping注解的params属性，“param”：必须携带param参数： "/testRequestHeader/mustHaveHeader, Header:Accept（浏览器发）" --> success.html</a><br/>
+<a th:href="@{/testRequestHeader/canNotHaveHeader}">测试@RequestMapping注解的params属性，“!param”：不能携带param参数： "/testRequestHeader/canNotHaveHeader, Header:Upgrade-Insecure-Requests（浏览器发）" --> success.html(⚠️❌）</a><br/>
+<a th:href="@{/testRequestHeader/headerKeyValueMatch}">测试@RequestMapping注解的params属性，“param=value”：必须携带param请求参数且param=value： "/testRequestHeader/headerKeyValueMatch, Header:Host=localhost:8080（浏览器发）" --> success.html</a><br/>
+<a th:href="@{/testRequestHeader/headerKeyValueNotMatch}">测试@RequestMapping注解的params属性，“param!=value”：必须携带param请求参数但是param!=value： "/testRequestHeader/headerKeyValueNotMatch, Header:Host=localhost:8080（浏览器发）" --> success.html(⚠️❌）</a><br/>
+<hr/>
+```
+```plain/text
+注：
+若当前请求满足@RequestMapping注解的value和method属性，但是不满足headers属性，此时页面显示HTTP Status 404 – Not Found，即资源未找到
+请求的资源[/02_springmvc_annotations_war_exploded/testRequestHeader/canNotHaveHeader]不可用
+请求的资源[/02_springmvc_annotations_war_exploded/testRequestHeader/headerKeyValueNotMatch]不可用
+```

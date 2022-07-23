@@ -28,7 +28,7 @@ public class RequestMappingController_05_ParamsTest {
     @RequestMapping(
             value = {"/canNotHaveParam"},
             method = {RequestMethod.GET},
-            params = {"!skipLogon"}  // 不能携带skipLogon参数，除b以外所有其他参数都再匹配规则
+            params = {"!skipLogon"}  // 不能携带skipLogon参数，除skipLogon以外所有其他参数都再匹配规则
     )
     public String canNotHaveParam() {
         return "success";
