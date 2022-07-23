@@ -245,3 +245,47 @@ public class RequestMappingController_06_HeaderTest {
 请求的资源[/02_springmvc_annotations_war_exploded/testRequestHeader/canNotHaveHeader]不可用
 请求的资源[/02_springmvc_annotations_war_exploded/testRequestHeader/headerKeyValueNotMatch]不可用
 ```
+
+### 7、SpringMVC支持ant风格的路径(模糊匹配)
+？：表示任意的单个字符
+
+*：表示任意的0个或多个字符
+
+**：表示任意的一层或多层目录
+
+注意：在使用**时，只能使用/**/xxx的方式
+```java
+@Controller
+public class RequestMappingController_07_ValueRegex {
+
+    // ？：表示任意的单个字符
+    @RequestMapping("/a?c/testQuestionMark")
+    public String testQuestionMark() {
+        return "success";
+    }
+
+    // *：表示任意的0个或多个字符
+    @RequestMapping("/a*c/testSingleStar")
+    public String testSingleStar() {
+        return "success";
+    }
+
+    // **：表示任意的一层或多层目录，注意：在使用**时，只能使用/**/xxx的方式
+    @RequestMapping("/**/testDoubleStar")
+    public String testDoubleStar() {
+        return "success";
+    }
+}
+```
+```xml
+<h3>@RequestMapping注解的"value"路径的正则匹配</h3>
+<a th:href="@{/a1c/testQuestionMark}">测试@RequestMapping注解的"value"路径的正则匹配，？：表示任意的单个字符： "/a?c/testQuestionMark, /a?c/ -> /a1c/" --> success.html</a><br/>
+<a th:href="@{/a12c/testQuestionMark}">测试@RequestMapping注解的"value"路径的正则匹配，？：表示任意的单个字符： "/a?c/testQuestionMark, /a?c/ -> /a12c/" --> success.html(⚠️❌)</a><br/>
+<a th:href="@{/a?c/testQuestionMark}">测试@RequestMapping注解的"value"路径的正则匹配，？：表示任意的单个字符： "/a?c/testQuestionMark, /a?c/ -> /a?c/" --> success.html(⚠️❌)</a><br/>
+<a th:href="@{/ac/testSingleStar}">测试@RequestMapping注解的"value"路径的正则匹配，*：表示任意的0个或多个字符： "/a*c/testSingleStar, /a*c/ -> /ac/" --> success.html</a><br/>
+<a th:href="@{/a1c/testSingleStar}">测试@RequestMapping注解的"value"路径的正则匹配，*：表示任意的0个或多个字符： "/a*c/testSingleStar, /a*c/ -> /a1c/" --> success.html</a><br/>
+<a th:href="@{/a12345c/testSingleStar}">测试@RequestMapping注解的"value"路径的正则匹配，*：表示任意的0个或多个字符： "/a*c/testSingleStar, /a*c/ -> /a12345c/" --> success.html</a><br/>
+<a th:href="@{/a/testDoubleStar}">测试@RequestMapping注解的"value"路径的正则匹配，**：表示任意的一层或多层目录： "/**/testDoubleStar, /**/ -> /a/" --> success.html</a><br/>
+<a th:href="@{/a/b/testDoubleStar}">测试@RequestMapping注解的"value"路径的正则匹配，**：表示任意的一层或多层目录： "/**/testDoubleStar, /**/ -> /a/b/" --> success.html</a><br/>
+```
+
