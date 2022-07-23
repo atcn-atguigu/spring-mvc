@@ -11,6 +11,7 @@
 
     <modules>
         <module>01_springmvc_helloworld</module>
+        <module>02_springmvc_annotations</module>
     </modules>
 
 </project>
