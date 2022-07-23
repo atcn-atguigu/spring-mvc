@@ -289,3 +289,25 @@ public class RequestMappingController_07_ValueRegex {
 <a th:href="@{/a/b/testDoubleStar}">测试@RequestMapping注解的"value"路径的正则匹配，**：表示任意的一层或多层目录： "/**/testDoubleStar, /**/ -> /a/b/" --> success.html</a><br/>
 ```
 
+
+### 8、SpringMVC支持路径中的占位符（重点）
+原始方式：/deleteUser?id=1
+
+rest方式：/deleteUser/1
+
+SpringMVC路径中的占位符常用于RESTful风格中，当请求路径中将某些数据通过路径的方式传输到服务器中，就可以在相应的@RequestMapping注解的value属性中通过占位符{xxx}表示传输的数据，在通过@PathVariable注解，将占位符所表示的数据赋值给控制器方法的形参
+```java
+@Controller
+public class RequestMappingController_08_ValuePlaceHolder {
+    
+    @RequestMapping("/testPathVariable/{username}/{id}")
+    public String testPathVariable(@PathVariable("username") String username, @PathVariable("id") String id) {
+        System.out.println("username is: " + username + ", id is: " + id);
+        return "success";
+    }
+}
+```
+```xml
+<h3>@RequestMapping注解的"value"路径的占位符 - @PathVariable</h3>
+<a th:href="@{/testPathVariable/admin/001}">测试@RequestMapping注解的"value"路径的占位符，@PathVariable("username") String username, @PathVariable("id") String id： "/testPathVariable/admin/001" --> success.html(查看tomcat log输出)</a><br/>
+```
