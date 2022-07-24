@@ -12,6 +12,7 @@
     <modules>
         <module>01_springmvc_helloworld</module>
         <module>02_springmvc_annotations</module>
+        <module>03_springmvc_fetchReqArgs</module>
     </modules>
 
 </project>
