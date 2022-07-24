@@ -6,10 +6,10 @@
 </head>
 <body>
 <h1>首页</h1>
-<h3>通过使用原生HttpServletRequest类的getParameter()方法获取请求参数的值</h3>
+<h3>1. 通过使用原生HttpServletRequest类的getParameter()方法获取请求参数的值</h3>
 <a th:href="@{/testServletAPI(username='admin', password=123456)}">测试使用原生Servlet API获取请求参数的值, "/testServletAPI?username=admin&password=123456" --> success.html</a><br/>
 <hr/>
-<h3>通过使用controller方法的形参来获取请求参数的值</h3>
+<h3>2. 通过使用controller方法的形参来获取请求参数的值</h3>
 <a th:href="@{/testParameter(username='admin', password=123456)}">测试使用controller方法的形参接收参数(username, password), "/testParameter(username='admin', password=123456)" --> success.html</a><br/>
 <br/>形参显式声明只接收2个parameters，但如果路径匹配下，传入其他味声明的形参值，也同样能处理请求
 <form th:action="@{/testParameter}" method="get">
@@ -35,6 +35,12 @@
     游泳<input type="checkbox" name="hobby" value="swimming"><br/>
     <input type="submit" value="测试使用controller方法的形参获取请求参数的值, '/testParameterStringArray?username=root&password=123456&hobby=running&hobby=swimming GET' --> success.html">
 </form>
+<hr/>
+<h3>3. @RequestParam 请求参数名与形参变量名的映射</h3>
+<a th:href="@{/testRequestParamTag(user-name=admin)}">前端发送请求参数为"user-name"，控制器方法形参便令名通过注解@RequestParam映射成变量名"username"， "/testRequestParamTag(user-name=admin)" --> success.html</a><br/>
+<a th:href="@{/testRequestParamTagRequired}">前端发送请求参数为"user-name"，控制器方法形参便令名通过注解@RequestParam映射成变量名"username"，不传参数required = false（默认true） "/testRequestParamTagRequired" --> success.html</a><br/>
+<a th:href="@{/testRequestParamTagDefaultValue}">前端发送请求不传参数为"user-name"，不传参数，默认值hello "/testRequestParamTagDefaultValue" --> success.html</a><br/>
+<a th:href="@{/testRequestParamTagDefaultValue2(user-name=)}">前端发送请求参数为"user-name="，值为空，同样认为是没有传参数，默认值hello "/testRequestParamTagDefaultValue" --> success.html</a><br/>
 <hr/>
 </body>
 </html>

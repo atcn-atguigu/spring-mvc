@@ -93,3 +93,52 @@ public class FetchReqArgs_02_MethodParameter {
 若使用字符串类型的形参，此参数的值为每个数据中间使用逗号拼接的结果
 ```
 
+#### 3、@RequestParam
+@RequestParam是将请求参数和控制器方法的形参创建映射关系
+
+@RequestParam注解一共有三个属性：
+
+value：指定为形参赋值的请求参数的参数名
+
+required：设置是否必须传输此请求参数，默认值为true
+
+若设置为true时，则当前请求必须传输value所指定的请求参数，若没有传输该请求参数，且没有设置defaultValue属性，则页面报错400：Required String parameter ‘xxx’ is not present；若设置为false，则当前请求不是必须传输value所指定的请求参数，若没有传输，则注解所标识的形参的值为null
+
+defaultValue：不管required属性值为true或false，当value所指定的请求参数没有传输或传输的值为""时，则使用默认值为形参赋值
+```java
+@Controller
+public class FetchReqArgs_03_RequestParamAnnotation {
+
+    // 前端传过来的请求参数为"user-name"，但形参变量名不允许，引出注解@RequestParam
+    @RequestMapping("/testRequestParamTag")
+    public String testRequestParamTag(@RequestParam("user-name") String username) {
+        System.out.println("username：" + username); // 调用传参数值(user-name=admin)，输出：username：admin
+        return "success";
+    }
+
+    @RequestMapping("/testRequestParamTagRequired")
+    public String testRequestParamTagRequired(@RequestParam(value = "user-name", required = false) String username) {
+        System.out.println("username：" + username); // 调用不传参数的输出：username：null
+        return "success";
+    }
+
+    @RequestMapping("/testRequestParamTagDefaultValue")
+    public String testRequestParamTagDefaultValue(@RequestParam(value = "user-name", required = false, defaultValue = "hello") String username) {
+        System.out.println("username：" + username); // 调用不传参数的输出：username：hello
+        return "success";
+    }
+
+    @RequestMapping("/testRequestParamTagDefaultValue2")
+    public String testRequestParamTagDefaultValue2(@RequestParam(value = "user-name", required = false, defaultValue = "hello") String username) {
+        System.out.println("username：" + username); // 调用传参数(user-name=）的输出：username：hello 【注意：参数值为空，被认为没有传】
+        return "success";
+    }
+}
+```
+```html
+<h3>3. @RequestParam 请求参数名与形参变量名的映射</h3>
+<a th:href="@{/testRequestParamTag(user-name=admin)}">前端发送请求参数为"user-name"，控制器方法形参便令名通过注解@RequestParam映射成变量名"username"， "/testRequestParamTag(user-name=admin)" --> success.html</a><br/>
+<a th:href="@{/testRequestParamTagRequired}">前端发送请求参数为"user-name"，控制器方法形参便令名通过注解@RequestParam映射成变量名"username"，不传参数required = false（默认true） "/testRequestParamTagRequired" --> success.html</a><br/>
+<a th:href="@{/testRequestParamTagDefaultValue}">前端发送请求不传参数为"user-name"，不传参数，默认值hello "/testRequestParamTagDefaultValue" --> success.html</a><br/>
+<a th:href="@{/testRequestParamTagDefaultValue2(user-name=)}">前端发送请求参数为"user-name="，值为空，同样认为是没有传参数，默认值hello "/testRequestParamTagDefaultValue" --> success.html</a><br/>
+```
