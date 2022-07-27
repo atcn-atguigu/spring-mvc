@@ -272,3 +272,29 @@ public class FetchReqArgs_06_Pojo {
     <input type="submit">
 </form>
 ```
+
+#### 7、解决获取请求参数的乱码问题
+解决获取请求参数的乱码问题，可以使用SpringMVC提供的编码过滤器CharacterEncodingFilter，但是必须在web.xml中进行注册
+```xml
+<!--配置springMVC的编码过滤器-->
+<filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+        <param-name>encoding</param-name>
+        <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+        <param-name>forceResponseEncoding</param-name>
+        <param-value>true</param-value>
+    </init-param>
+</filter>
+<filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+```
+```plain/text
+注：
+SpringMVC中处理编码的过滤器一定要配置到其他过滤器之前，否则无效
+```

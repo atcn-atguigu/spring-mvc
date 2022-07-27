@@ -29,9 +29,9 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-
-
-    <!-- 乱码过滤 -->
+    <!-- 乱码过滤
+        注意：SpringMVC中处理编码的过滤器一定要配置到其他过滤器之前，否则无效
+    -->
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
