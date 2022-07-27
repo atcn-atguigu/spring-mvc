@@ -142,3 +142,48 @@ public class FetchReqArgs_03_RequestParamAnnotation {
 <a th:href="@{/testRequestParamTagDefaultValue}">前端发送请求不传参数为"user-name"，不传参数，默认值hello "/testRequestParamTagDefaultValue" --> success.html</a><br/>
 <a th:href="@{/testRequestParamTagDefaultValue2(user-name=)}">前端发送请求参数为"user-name="，值为空，同样认为是没有传参数，默认值hello "/testRequestParamTagDefaultValue" --> success.html</a><br/>
 ```
+
+#### 4、@RequestHeader (用法同上)
+@RequestHeader是将请求头信息和控制器方法的形参创建映射关系
+
+@RequestHeader注解一共有三个属性：value、required、defaultValue，用法同@RequestParam
+```java
+@Controller
+public class FetchReqArgs_04_RequestHeaderAnnotation {
+
+    /**
+     * @RequestHeader 用法同 @RequestParam
+     */
+    @RequestMapping("/testRequestHeaderTag")
+    public String testRequestParamTag(@RequestHeader("Host") String host) {
+        System.out.println("host：" + host); // 调用请求header数值，输出：host：localhost:8080
+        return "success";
+    }
+
+    @RequestMapping("/testRequestHeaderTagRequired")
+    public String testRequestParamTagRequired(@RequestHeader(value = "NotExistHeader", required = false) String notExistHeader) {
+        System.out.println("NotExistHeader：" + notExistHeader); // 请求中不存在的header，输出：NotExistHeader：null
+        return "success";
+    }
+
+    @RequestMapping("/testRequestHeaderTagDefaultValue")
+    public String testRequestParamTagDefaultValue(@RequestHeader(value = "NotExistHeader", required = false, defaultValue = "hello") String notExistHeader) {
+        System.out.println("NotExistHeader：" + notExistHeader); // 请求中不存在的header，输出默认值：NotExistHeader：hello
+        return "success";
+    }
+
+    @RequestMapping("/testRequestHeaderTagDefaultValue2")
+    public String testRequestParamTagDefaultValue2(@RequestHeader(value = "NotExistHeader", required = false, defaultValue = "hello") String notExistHeader) {
+        System.out.println("NotExistHeader：" + notExistHeader); // 调用传参数(NotExistHeader=）的输出：NotExistHeader：hello 【注意：header值为空，被认为没有传】
+        return "success";
+    }
+}
+```
+```html
+<a th:href="@{/testRequestHeaderTag}">前端发送请求header为"Host: localhost:8080"，控制器方法形参通过注解@RequestHeader映射成变量名"host"， "/testRequestHeaderTag" --> success.html</a><br/>
+<a th:href="@{/testRequestHeaderTagRequired}">前端发送请求不含header名"NotExistHeader"，控制器方法形参通过注解@RequestHeader映射成变量名映射成变量名"notExistHeader"，不传参数required = false（默认true） "/testRequestHeaderTagRequired" --> success.html</a><br/>
+<a th:href="@{/testRequestHeaderTagDefaultValue}">前端发送请求不含header名"NotExistHeader"，设置header "NotExistHeader"默认值hello "/testRequestHeaderTagDefaultValue" --> success.html</a><br/>
+<a th:href="@{/testRequestHeaderTagDefaultValue2(NotExistHeader=)}">前端发送请求带含header名"NotExistHeader"，值为空，同样认为是没有传参数，默认值hello "/testRequestHeaderTagDefaultValue2" --> success.html</a><br/>
+```
+![01_RequestHeader_ValueEmptyUseDefaultValue.png](readme_pic/01_RequestHeader_ValueEmptyUseDefaultValue.png)
+
