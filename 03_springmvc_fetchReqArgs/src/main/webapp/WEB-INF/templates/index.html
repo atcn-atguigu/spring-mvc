@@ -60,5 +60,15 @@
 <textarea style="height: 50px; width:840px">curl --location --request GET 'http://localhost:8080/03_springmvc_fetchReqArgs_war_exploded/testCookieValueTagDefaultValue2' \
 --header 'Cookie: notExistCookieValue=""'</textarea>
 <hr/>
+<h3>6. 通过POJO获取请求参数</h3>
+<form th:action="@{/testPojo}" method="post">
+    用户名：<input type="text" name="username"><br>
+    密码：<input type="password" name="password"><br>
+    性别：<input type="radio" name="sex" value="男">男<input type="radio" name="sex" value="女">女<br>
+    年龄：<input type="text" name="age"><br>
+    邮箱：<input type="text" name="email"><br>
+    <input type="submit">
+</form>
+<hr/>
 </body>
 </html>

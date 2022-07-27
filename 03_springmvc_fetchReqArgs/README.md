@@ -247,3 +247,28 @@ public class FetchReqArgs_05_CookieValueAnnotation {
 <textarea style="height: 50px; width:840px">curl --location --request GET 'http://localhost:8080/03_springmvc_fetchReqArgs_war_exploded/testCookieValueTagDefaultValue2' \
 --header 'Cookie: notExistCookieValue=""'</textarea>
 ```
+
+#### 6、通过POJO获取请求参数
+可以在控制器方法的形参位置设置一个实体类类型的形参，此时若浏览器传输的请求参数的参数名和实体类中的属性名一致，那么请求参数就会为此属性赋值
+```java
+@Controller
+public class FetchReqArgs_06_Pojo {
+
+    @RequestMapping("/testPojo")
+    public String testPojo(User user){
+        System.out.println(user); //最终结果-->User{id=null, username='root', password='123456', age=23, sex='男', email='123@qq.com'}
+        return "success";
+    }
+}
+```
+```html
+<h3>6. 通过POJO获取请求参数</h3>
+<form th:action="@{/testPojo}" method="post">
+    用户名：<input type="text" name="username"><br>
+    密码：<input type="password" name="password"><br>
+    性别：<input type="radio" name="sex" value="男">男<input type="radio" name="sex" value="女">女<br>
+    年龄：<input type="text" name="age"><br>
+    邮箱：<input type="text" name="email"><br>
+    <input type="submit">
+</form>
+```
