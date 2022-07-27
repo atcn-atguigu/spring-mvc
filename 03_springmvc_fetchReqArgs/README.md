@@ -137,10 +137,10 @@ public class FetchReqArgs_03_RequestParamAnnotation {
 ```
 ```html
 <h3>3. @RequestParam 请求参数名与形参变量名的映射</h3>
-<a th:href="@{/testRequestParamTag(user-name=admin)}">前端发送请求参数为"user-name"，控制器方法形参便令名通过注解@RequestParam映射成变量名"username"， "/testRequestParamTag(user-name=admin)" --> success.html</a><br/>
-<a th:href="@{/testRequestParamTagRequired}">前端发送请求参数为"user-name"，控制器方法形参便令名通过注解@RequestParam映射成变量名"username"，不传参数required = false（默认true） "/testRequestParamTagRequired" --> success.html</a><br/>
+<a th:href="@{/testRequestParamTag(user-name=admin)}">前端发送请求参数为"user-name"，控制器方法形参通过注解@RequestParam映射成变量名"username"， "/testRequestParamTag(user-name=admin)" --> success.html</a><br/>
+<a th:href="@{/testRequestParamTagRequired}">前端发送请求参数为"user-name"，控制器方法形参通过注解@RequestParam映射成变量名"username"，不传参数required = false（默认true） "/testRequestParamTagRequired" --> success.html</a><br/>
 <a th:href="@{/testRequestParamTagDefaultValue}">前端发送请求不传参数为"user-name"，不传参数，默认值hello "/testRequestParamTagDefaultValue" --> success.html</a><br/>
-<a th:href="@{/testRequestParamTagDefaultValue2(user-name=)}">前端发送请求参数为"user-name="，值为空，同样认为是没有传参数，默认值hello "/testRequestParamTagDefaultValue" --> success.html</a><br/>
+<a th:href="@{/testRequestParamTagDefaultValue2(user-name=)}">前端发送请求参数为"user-name="，值为空，同样认为是没有传参数，默认值hello "/testRequestParamTagDefaultValue2" --> success.html</a><br/>
 ```
 
 #### 4、@RequestHeader (用法同上)
@@ -180,10 +180,70 @@ public class FetchReqArgs_04_RequestHeaderAnnotation {
 }
 ```
 ```html
+<h3>4. @RequestHeader 获取请求的header (用法同上)</h3>
 <a th:href="@{/testRequestHeaderTag}">前端发送请求header为"Host: localhost:8080"，控制器方法形参通过注解@RequestHeader映射成变量名"host"， "/testRequestHeaderTag" --> success.html</a><br/>
 <a th:href="@{/testRequestHeaderTagRequired}">前端发送请求不含header名"NotExistHeader"，控制器方法形参通过注解@RequestHeader映射成变量名映射成变量名"notExistHeader"，不传参数required = false（默认true） "/testRequestHeaderTagRequired" --> success.html</a><br/>
 <a th:href="@{/testRequestHeaderTagDefaultValue}">前端发送请求不含header名"NotExistHeader"，设置header "NotExistHeader"默认值hello "/testRequestHeaderTagDefaultValue" --> success.html</a><br/>
-<a th:href="@{/testRequestHeaderTagDefaultValue2(NotExistHeader=)}">前端发送请求带含header名"NotExistHeader"，值为空，同样认为是没有传参数，默认值hello "/testRequestHeaderTagDefaultValue2" --> success.html</a><br/>
+<p>Postman测试：前端发送请求带含header名"NotExistHeader"，值为空，同样认为是没有传参数，默认值hello "/testRequestHeaderTagDefaultValue2" --> success.html</p>
+<texta style="height: 50px; width:840px"></texta>
+<textarea>curl --location --request GET 'http://localhost:8080/03_springmvc_fetchReqArgs_war_exploded/testRequestHeaderTagDefaultValue2' \
+--header 'NotExistHeader;'</textarea>
 ```
 ![01_RequestHeader_ValueEmptyUseDefaultValue.png](readme_pic/01_RequestHeader_ValueEmptyUseDefaultValue.png)
 
+#### 5、@CookieValue (用法同上)
+@CookieValue是将cookie数据和控制器方法的形参创建映射关系
+
+@CookieValue注解一共有三个属性：value、required、defaultValue，用法同@RequestParam
+```java
+@Controller
+public class FetchReqArgs_05_CookieValueAnnotation {
+
+    /**
+     * @RequestHeader 用法同 @RequestParam
+     */
+    // 执行当前，请求响应头会有cookie： Set-Cookie: JSESSIONID=769D3E95CD894DFAB89B7B055B2FE867; Path=/03_springmvc_fetchReqArgs_war_exploded; HttpOnly
+    // 后续请求发送会带当前cookie。
+    @RequestMapping("/testCreateSessionCookieAndStoreToBrowser")
+    public String testServletAPI(HttpServletRequest httpServletRequest) {    // 使用Servlet原生接口获取当前请求的请求参数
+        HttpSession session = httpServletRequest.getSession();
+        System.out.println("Creating session cookie to browser, session value:" + session);
+        return "success";
+    }
+
+    // 执行完上面第一条pre-condition后，执行这条，请求头会带header：Cookie: JSESSIONID=769D3E95CD894DFAB89B7B055B2FE867
+    @RequestMapping("/testCookieValueTag")
+    public String testRequestParamTag(@CookieValue("JSESSIONID") String jSessionIDCookie) {
+        System.out.println("Cookie-JSESSIONID：" + jSessionIDCookie); // Cookie-JSESSIONID：769D3E95CD894DFAB89B7B055B2FE867
+        return "success";
+    }
+
+    @RequestMapping("/testCookieValueTagRequired")
+    public String testRequestParamTagRequired(@CookieValue(value = "NotExistCookieValue", required = false) String notExistCookieValue) {
+        System.out.println("notExistCookieValue：" + notExistCookieValue); // notExistCookieValue：null
+        return "success";
+    }
+
+    @RequestMapping("/testCookieValueTagDefaultValue")
+    public String testRequestParamTagDefaultValue(@CookieValue(value = "NotExistCookieValue", required = false, defaultValue = "hello") String notExistCookieValue) {
+        System.out.println("notExistCookieValue：" + notExistCookieValue); // NotExistHeader：hello
+        return "success";
+    }
+
+    @RequestMapping("/testCookieValueTagDefaultValue2")
+    public String testRequestParamTagDefaultValue2(@CookieValue(value = "notExistCookieValue", required = false, defaultValue = "hello") String notExistCookieValue) {
+        System.out.println("notExistCookieValue：" + notExistCookieValue); // 调用传CookieValue空字符串(notExistCookieValue=）的输出：notExistCookieValue：hello
+        return "success";
+    }
+}
+```
+```html
+<h3>5. @CookieValue 获取请求的cookie (用法同上)</h3>
+<a th:href="@{/testCreateSessionCookieAndStoreToBrowser}">原生ServletAPI创建cookie， "/testCreateSessionCookieAndStoreToBrowser" --> success.html</a><br/>
+<a th:href="@{/testCookieValueTag}">前端发送请求，获取前端发送请求自带的cookie，控制器方法形参通过注解@CookieValue映射成变量名"cookie"， "/testCookieValueTag" --> success.html</a><br/>
+<a th:href="@{/testCookieValueTagRequired}">前端发送请求不含cookie的header名"NotExistCookieValue"，控制器方法形参通过注解@RequestHeader映射成变量名映射成变量名"notExistCookieValue"，不传参数required = false（默认true） "/testCookieValueTagRequired" --> success.html</a><br/>
+<a th:href="@{/testRequestHeaderTagDefaultValue}">前端发送请求不含cookie的header名"NotExistCookieValue"，设置cookie "NotExistCookieValue"默认值hello "/testCookieValueTagDefaultValue" --> success.html</a><br/>
+<p>Postman测试：前端发送请求带含cookie的header名"NotExistCookieValue"，值为空，同样认为是没有传参数，默认值hello "/testCookieValueTagDefaultValue2" --> success.html</p>
+<textarea style="height: 50px; width:840px">curl --location --request GET 'http://localhost:8080/03_springmvc_fetchReqArgs_war_exploded/testCookieValueTagDefaultValue2' \
+--header 'Cookie: notExistCookieValue=""'</textarea>
+```
