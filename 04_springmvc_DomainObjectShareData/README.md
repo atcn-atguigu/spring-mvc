@@ -119,4 +119,28 @@ public class ObjDataShareScope_04_Map {
 <p th:text="${mapData}"></p>
 ```
 
+#### 5、使用ModelMap向request域对象共享数据
+```java
+@Controller
+public class ObjDataShareScope_05_ModelMap {
+
+    @RequestMapping("/testScopeOfModelMap")
+    public String testScopeOfModelMap(ModelMap modelMap) { // 形参传入Model类
+
+        modelMap.addAttribute("modelMapAttributeData", "Hello, Model Map! -- addAttribute()");
+        modelMap.put("modelMapPutData", "Hello, Model Map! -- put()");
+        return "success";
+    }
+}
+```
+```html
+<h3>5、使用ModelMap向request域对象共享数据</h3>
+<a th:href="@{/testScopeOfModelMap}">测试使用方法形参ModelMap，值传递返回给视图页面success.html, "/testScopeOfModelMap" --> success.html</a><br/>
+```
+```html
+<h3>5、ModelMap</h3>
+<p th:text="${modelMapAttributeData}"></p>
+<p th:text="${modelMapPutData}"></p>
+```
+
 
