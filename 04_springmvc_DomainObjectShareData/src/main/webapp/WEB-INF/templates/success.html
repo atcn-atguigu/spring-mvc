@@ -23,5 +23,9 @@
 <p th:text="${modelMapAttributeData}"></p>
 <p th:text="${modelMapPutData}"></p>
 <hr/>
+<h3>7、Session(推荐使用的原生Servlet API，而不是Spring MVC的注解@SessionAttribute）</h3>
+<!-- 通过session.属性值来获取session的信息 -->
+<p th:text="${session.testSessionScope}"></p>
+<hr/>
 </body>
 </html>

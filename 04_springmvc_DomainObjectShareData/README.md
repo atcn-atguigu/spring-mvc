@@ -151,4 +151,31 @@ public class ExtendedModelMap extends ModelMap implements Model {}
 public class BindingAwareModelMap extends ExtendedModelMap {}
 ```
 
+#### 7、向session域共享数据
+```java
+@Controller
+public class ObjDataShareScope_07_Session_HttpSession {
+
+    /**
+     * Spring MVC为我们提供了注解:
+     * @SessionAttribute - 当数据共享在request域的时候，在session域复制一份共享
+     * ⚠️ 注意，由于不太好用，所以一般直接使用Servlet API -> HttpSession
+     */
+    @RequestMapping("/testSession")
+    public String testSession(HttpSession session){
+        session.setAttribute("testSessionScope", "Hello, HttpSession!");
+        return "success";
+    }
+}
+```
+```html
+<h3>7、Session - 通过Servlet API向session域对象共享数据(推荐使用的原生Servlet API，而不是Spring MVC的注解@SessionAttribute）</h3>
+<a th:href="@{/testSession}">测试使用原生Servlet API，值保存与session共享传递返回给视图页面success.html, "/testSession" --> success.html</a><br/>
+```
+```html
+<h3>7、Session(推荐使用的原生Servlet API，而不是Spring MVC的注解@SessionAttribute）</h3>
+<!-- 通过session.属性值来获取session的信息 -->
+<p th:text="${session.testSessionScope}"></p>
+```
+
 

@@ -21,5 +21,8 @@
 <h3>5、使用ModelMap向request域对象共享数据</h3>
 <a th:href="@{/testScopeOfModelMap}">测试使用方法形参ModelMap，值传递返回给视图页面success.html, "/testScopeOfModelMap" --> success.html</a><br/>
 <hr/>
+<h3>7、Session - 通过Servlet API向session域对象共享数据(推荐使用的原生Servlet API，而不是Spring MVC的注解@SessionAttribute）</h3>
+<a th:href="@{/testSession}">测试使用原生Servlet API，值保存与session共享传递返回给视图页面success.html, "/testSession" --> success.html</a><br/>
+<hr/>
 </body>
 </html>

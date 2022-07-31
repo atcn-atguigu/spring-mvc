@@ -18,7 +18,7 @@ public class ObjDataShareScope_01_OriginServletAPI {
     public String testServletAPI(HttpServletRequest httpServletRequest) {    // 使用Servlet原生接口获取当前请求的请求参数
         // Servlet API 域共享数据主要有3个方法：
         // （1）setAttribute()；
-        httpServletRequest.setAttribute("testServletAPIAttributeData", "Hello, servlet API!!");
+        httpServletRequest.setAttribute("testServletAPIAttributeData", "Hello, HttpServletRequest!!");
         //（2）getAttribute()；
         System.out.println("使用Servlet原生API设置数据共享scope，属性'servletAPIAttributeData'：" + httpServletRequest.getAttribute("testServletAPIAttributeData"));
         //（3）removeAttribute()
