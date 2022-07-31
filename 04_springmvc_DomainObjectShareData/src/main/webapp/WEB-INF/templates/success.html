@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>success成功页</title>
+</head>
+<body>
+<h1>成功页</h1>
+<!-- 视图接收Servlet API request域对象共享的数据，thymeleaf只能解析属性上大括号的值，所以不能写在p标签内部 -->
+<p th:text="${testServletAPIAttributeData}"></p>
+</body>
+</html>

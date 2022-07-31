@@ -13,6 +13,7 @@
         <module>01_springmvc_helloworld</module>
         <module>02_springmvc_annotations</module>
         <module>03_springmvc_fetchReqArgs</module>
+        <module>04_springmvc_DomainObjectShareData</module>
     </modules>
 
 </project>
