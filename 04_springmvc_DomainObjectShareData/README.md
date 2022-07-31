@@ -126,7 +126,6 @@ public class ObjDataShareScope_05_ModelMap {
 
     @RequestMapping("/testScopeOfModelMap")
     public String testScopeOfModelMap(ModelMap modelMap) { // 形参传入Model类
-
         modelMap.addAttribute("modelMapAttributeData", "Hello, Model Map! -- addAttribute()");
         modelMap.put("modelMapPutData", "Hello, Model Map! -- put()");
         return "success";
@@ -141,6 +140,15 @@ public class ObjDataShareScope_05_ModelMap {
 <h3>5、ModelMap</h3>
 <p th:text="${modelMapAttributeData}"></p>
 <p th:text="${modelMapPutData}"></p>
+```
+
+#### 6、Model、ModelMap、Map的关系
+Model、ModelMap、Map类型的参数其实本质上都是 BindingAwareModelMap 类型的
+```java
+public interface Model{}
+public class ModelMap extends LinkedHashMap<String, Object> {}
+public class ExtendedModelMap extends ModelMap implements Model {}
+public class BindingAwareModelMap extends ExtendedModelMap {}
 ```
 
 
