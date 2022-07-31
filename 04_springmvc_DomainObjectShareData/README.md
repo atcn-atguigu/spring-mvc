@@ -77,3 +77,24 @@ public class ObjDataShareScope_02_ModelAndView {
 <p th:text="${modelAndViewScopeData}"></p>
 ```
 
+#### 3、使用Model向request域对象共享数据
+```java
+@Controller
+public class ObjDataShareScope_03_Model {
+
+    @RequestMapping("/testScopeOfModel")
+    public String testScopeOfModel(Model model) { // 形参传入Model类
+        model.addAttribute("modelAttributeData", "Hello, Model!");
+        return "success";
+    }
+}
+```
+```html
+<h3>3、使用Model向request域对象共享数据</h3>
+<a th:href="@{/testScopeOfModel}">测试使用方法形参Model，值传递返回给视图页面success.html, "/testScopeOfModelAndView" --> success.html</a><br/>
+```
+```html
+<h3>3、Model</h3>
+<p th:text="${modelAttributeData}"></p>
+```
+
