@@ -169,7 +169,7 @@ public class ObjDataShareScope_07_Session_HttpSession {
 }
 ```
 ```html
-<h3>7、Session - 通过Servlet API向session域对象共享数据(推荐使用的原生Servlet API，而不是Spring MVC的注解@SessionAttribute）</h3>
+<h3>7、Session - 通过Servlet API向session域对象共享数据（推荐使用的原生Servlet API，而不是Spring MVC的注解@SessionAttribute）</h3>
 <a th:href="@{/testSession}">测试使用原生Servlet API，值保存与session共享传递返回给视图页面success.html, "/testSession" --> success.html</a><br/>
 ```
 ```html
@@ -178,4 +178,29 @@ public class ObjDataShareScope_07_Session_HttpSession {
 <p th:text="${session.testSessionScope}"></p>
 ```
 
+#### 8、向application域共享数据
+```java
+@Controller
+public class ObjDataShareScope_08_Application_ServletContext {
 
+    // ServletContext应用范围是整个应用范围
+    @RequestMapping("/testApplication")
+    public String testApplication(HttpSession session){ // 通过HttpSession获取ServletContext
+        ServletContext servletContext = session.getServletContext();
+        // ServletContext的几个常用方法：setAttribute()、getAttribute()、removeAttribute()
+        servletContext.setAttribute("testApplicationScope", "Hello, ServletContext!");
+//        servletContext.getAttribute("testApplicationScope");
+//        servletContext.removeAttribute("testApplicationScope");
+        return "success";
+    }
+}
+```
+```html
+<h3>8、Application(ServletContext - 通过Servlet API获取ServletContext向application域对象共享数据</h3>
+<a th:href="@{/testApplication}">测试使用原生Servlet API，值保存于application共享传递返回给视图页面success.html, "/testApplication" --> success.html</a><br/>
+```
+```html
+<h3>8、application</h3>
+<!-- 通过application.属性值来获取application的信息 -->
+<p th:text="${application.testApplicationScope}"></p>
+```
