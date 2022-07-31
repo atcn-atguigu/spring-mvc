@@ -91,10 +91,32 @@ public class ObjDataShareScope_03_Model {
 ```
 ```html
 <h3>3、使用Model向request域对象共享数据</h3>
-<a th:href="@{/testScopeOfModel}">测试使用方法形参Model，值传递返回给视图页面success.html, "/testScopeOfModelAndView" --> success.html</a><br/>
+<a th:href="@{/testScopeOfModel}">测试使用方法形参Model，值传递返回给视图页面success.html, "/testScopeOfModel" --> success.html</a><br/>
 ```
 ```html
 <h3>3、Model</h3>
 <p th:text="${modelAttributeData}"></p>
 ```
+
+#### 4、使用map向request域对象共享数据
+```java
+@Controller
+public class ObjDataShareScope_04_Map {
+
+    @RequestMapping("/testScopeOfMap")
+    public String testScopeOfMap(Map<String, Object> map) {
+        map.put("mapData", "Hello Map!");
+        return "success";
+    }
+}
+```
+```html
+<h3>4、使用map向request域对象共享数据</h3>
+<a th:href="@{/testScopeOfMap}">测试使用方法形参Map，值传递返回给视图页面success.html, "/testScopeOfMap" --> success.html</a><br/>
+```
+```html
+<h3>4、Map</h3>
+<p th:text="${mapData}"></p>
+```
+
 
