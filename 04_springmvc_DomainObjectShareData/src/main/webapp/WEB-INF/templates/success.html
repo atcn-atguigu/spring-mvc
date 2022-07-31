@@ -6,7 +6,11 @@
 </head>
 <body>
 <h1>成功页</h1>
+<h3>1、Servlet API</h3>
 <!-- 视图接收Servlet API request域对象共享的数据，thymeleaf只能解析属性上大括号的值，所以不能写在p标签内部 -->
 <p th:text="${testServletAPIAttributeData}"></p>
+<hr/>
+<h3>2、Model And View</h3>
+<p th:text="${modelAndViewScopeData}"></p>
 </body>
 </html>

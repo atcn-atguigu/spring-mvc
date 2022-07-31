@@ -52,4 +52,28 @@ public class ObjDataShareScope_01_OriginServletAPI {
 </body>
 </html>
 ```
+#### 2、使用ModelAndView向request域对象共享数据
+```java
+@Controller
+public class ObjDataShareScope_02_ModelAndView {
+
+    @RequestMapping("/testScopeOfModelAndView")
+    public ModelAndView testScopeOfModelAndView() {
+        ModelAndView modelAndView = new ModelAndView();
+        // 处理模型数据，即是向request域共享数据。
+        modelAndView.addObject("modelAndViewScopeData", "Hello, Model and View!");
+        // 设置视图名称
+        modelAndView.setViewName("success");
+        return modelAndView;    // modelAndView对象必须作为方法返回值
+    }
+}
+```
+```html
+<h3>2、使用ModelAndView向request域对象共享数据</h3>
+<a th:href="@{/testScopeOfModelAndView}">测试使用ModelAndView类，值传递返回给视图页面success.html, "/testScopeOfModelAndView" --> success.html</a><br/>
+```
+```html
+<h3>2、Model And View</h3>
+<p th:text="${modelAndViewScopeData}"></p>
+```
 
