@@ -15,6 +15,7 @@
         <module>03_springmvc_fetchReqArgs</module>
         <module>04_springmvc_shareData</module>
         <module>05_springmvc_view</module>
+        <module>06_springmvc_view-jsp</module>
     </modules>
 
 </project>
