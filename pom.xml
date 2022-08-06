@@ -10,10 +10,10 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>01_springmvc_helloworld</module>
+        <module>01_springmvc_helloWorld</module>
         <module>02_springmvc_annotations</module>
         <module>03_springmvc_fetchReqArgs</module>
-        <module>04_springmvc_DomainObjectShareData</module>
+        <module>04_springmvc_shareData</module>
     </modules>
 
 </project>

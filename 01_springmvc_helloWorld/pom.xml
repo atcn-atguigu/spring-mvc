@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>04_springmvc_DomainObjectShareData</artifactId>
+    <artifactId>01_springmvc_helloWorld</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
