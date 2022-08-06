@@ -93,3 +93,12 @@ public class View_03_redirect_RedirectView {
 转发请求，可以访问WEB-INF下的资源，而重定向不可以访问，因为WEB-INF下资源具有安全性，隐藏性，只能通过服务器内部访问，不能通过浏览器访问
 转发请求，不能跨域，而重定向可以跨域
 ```
+
+#### 4、视图控制器view-controller
+当控制器方法中，仅仅用来实现页面跳转，即只需要设置视图名称时，可以将处理器方法使用view-controller标签进行表示
+
+```plain/text
+注：
+当SpringMVC中设置任何一个view-controller时，其他控制器中的请求映射将全部失效，此时需要在SpringMVC的核心配置文件中设置开启mvc注解驱动的标签：
+<mvc:annotation-driven />
+```

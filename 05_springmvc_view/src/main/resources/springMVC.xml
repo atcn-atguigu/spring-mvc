@@ -51,4 +51,10 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
+
+    <!-- 视图控制器view-controller，需配合<mvc:annotation-driven />，否则请求映射将全部失效
+            path：设置处理的请求地址
+            view-name：设置请求地址所对应的视图名称
+    -->
+    <mvc:view-controller path="/" view-name="index"></mvc:view-controller>
 </beans>

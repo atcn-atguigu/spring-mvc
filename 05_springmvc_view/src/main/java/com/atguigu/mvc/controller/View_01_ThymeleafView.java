@@ -6,10 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class View_01_ThymeleafView {
 
-    @RequestMapping("/")
-    public String index() {
-        return "index";
-    }
+    // 注释下面方法，使用视图控制器view-controller配置
+//    @RequestMapping("/")
+//    public String index() {
+//        return "index";
+//    }
 
     @RequestMapping("/testThymeleafView")
     public String testHello(){
