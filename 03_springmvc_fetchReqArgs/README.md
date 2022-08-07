@@ -185,8 +185,7 @@ public class FetchReqArgs_04_RequestHeaderAnnotation {
 <a th:href="@{/testRequestHeaderTagRequired}">前端发送请求不含header名"NotExistHeader"，控制器方法形参通过注解@RequestHeader映射成变量名映射成变量名"notExistHeader"，不传参数required = false（默认true） "/testRequestHeaderTagRequired" --> success.html</a><br/>
 <a th:href="@{/testRequestHeaderTagDefaultValue}">前端发送请求不含header名"NotExistHeader"，设置header "NotExistHeader"默认值hello "/testRequestHeaderTagDefaultValue" --> success.html</a><br/>
 <p>Postman测试：前端发送请求带含header名"NotExistHeader"，值为空，同样认为是没有传参数，默认值hello "/testRequestHeaderTagDefaultValue2" --> success.html</p>
-<texta style="height: 50px; width:840px"></texta>
-<textarea>curl --location --request GET 'http://localhost:8080/03_springmvc_fetchReqArgs_war_exploded/testRequestHeaderTagDefaultValue2' \
+<textarea style="height: 50px; width:840px">curl --location --request GET 'http://localhost:8080/03_springmvc_fetchReqArgs_war_exploded/testRequestHeaderTagDefaultValue2' \
 --header 'NotExistHeader;'</textarea>
 ```
 ![01_RequestHeader_ValueEmptyUseDefaultValue.png](readme_pic/01_RequestHeader_ValueEmptyUseDefaultValue.png)

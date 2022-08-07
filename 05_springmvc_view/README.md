@@ -1,4 +1,4 @@
-### 五、SpringMVC的视图
+### 六、SpringMVC的视图
 SpringMVC中的视图是View接口，视图的作用渲染数据，将模型Model中的数据展示给用户
 
 SpringMVC视图的种类很多，默认有转发视图（InternalResourceView）和重定向视图（RedirectView）

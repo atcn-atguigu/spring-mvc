@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>index首页</title>
+</head>
+<body>
+<h1>首页</h1>
+<h3>1、查询所有用户信息：    GET /user</h3>
+<a th:href="@{/user}">查询所有用户信息</a>
+<hr/>
+<h3>2、根据id查询用户信息：  GET /user/1</h3>
+<a th:href="@{/user/1}">根据id查询用户信息</a>
+<hr/>
+<h3>3、添加用户信息：       POST /user</h3>
+<form th:action="@{/user}" method="post">
+    用户名：<input type="text" name="username"><br>
+    密码：<input type="password" name="password"><br>
+    <input type="submit" value="添加用户信息">
+</form>
+<hr/>
+<h3>4、修改用户信息：       PUT /user</h3>
+<form th:action="@{/user}" method="post">   <!-- form 表单仅支持get和post，写成其他仍为默认get-->
+    <input type="hidden" name="_method" value="PUT">    <!-- 这行能触发HiddenHttpMethodFilter来发送PUT请求 -->
+    用户名：<input type="text" name="username"><br>
+    密码：<input type="password" name="password"><br>
+    <input type="submit" value="修改用户信息">
+</form>
+<h3>5、删除用户信息：       DELETE /user/1</h3>
+<textarea style="height: 50px; width:840px">
+curl --location --request DELETE 'http://localhost:8080/07_springmvc_restful_war_exploded/user/1'
+</textarea>
+<hr/>
+<hr/>
+</body>
+</html>

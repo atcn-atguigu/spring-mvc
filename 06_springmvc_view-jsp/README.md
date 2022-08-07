@@ -1,4 +1,4 @@
-### 五、SpringMVC的视图
+### 六、SpringMVC的视图
 #### 5、使用JSP视图解析器替代Thymeleaf视图解析器的写法
 在springMVC.xml文件中替换Thymeleaf，使用JSP所用的InternalResourceView视图解析器
 ```xml

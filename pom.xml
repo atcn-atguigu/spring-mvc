@@ -16,6 +16,7 @@
         <module>04_springmvc_shareData</module>
         <module>05_springmvc_view</module>
         <module>06_springmvc_view-jsp</module>
+        <module>07_springmvc_restful</module>
     </modules>
 
 </project>

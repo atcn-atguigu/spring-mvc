@@ -1,4 +1,4 @@
-### 四、域对象共享数据
+### 五、域对象共享数据
 #### 1、使用ServletAPI向request域对象共享数据
 ```java
 @Controller
@@ -32,7 +32,7 @@ public class ObjDataShareScope_01_OriginServletAPI {
 </head>
 <body>
 <h1>首页</h1>
-<h3>1. 通过使用原生HttpServletRequest类的setAttribute()方法，向request域对象共享数据</h3>
+<h3>1、通过使用原生HttpServletRequest类的setAttribute()方法，向request域对象共享数据</h3>
 <a th:href="@{/testScopeOfServletAPI}">测试使用原生Servlet API，值传递返回给视图页面success.html, "/testScopeOfServletAPI" --> success.html</a><br/>
 <hr/>
 </body>
