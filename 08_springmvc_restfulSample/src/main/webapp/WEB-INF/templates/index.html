@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>index首页</title>
+</head>
+<body>
+<h1>首页</h1>
+<h3>1、查询所有员工信息：    GET /employee</h3>
+<a th:href="@{/employee}">查询所有员工信息 "GET /employee" --> employee_list.html</a>
+<hr/>
+
+<h3>2、根据id查询员工信息：  GET /employee/{id}</h3>
+<a th:href="@{/employee/1001}">根据id查询员工信息 "GET /employee/1001" --> employee_list.html</a>
+<hr/>
+
+<h3>3、根据id删除员工信息：  DELETE /employee/1002</h3>
+<form th:action="@{/employee/1002}" method="post">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="删除员工信息">
+</form>
+<hr/>
+
+<h3>4、修改员工信息：       PUT /employee</h3>
+<form th:action="@{/employee}" method="post">   <!-- form 表单仅支持get和post，写成其他仍为默认get-->
+    <input type="hidden" name="_method" value="PUT">    <!-- 这行能触发HiddenHttpMethodFilter来发送PUT请求 -->
+    *id：<input type="text" name="id"><br>
+    lastName：<input type="text" name="lastName"><br>
+    email：<input type="text" name="email"><br>
+    gender：<input type="radio" name="gender" value="1">Male
+            <input type="radio" name="gender" value="0">Female<br>
+    <input type="submit" value="修改员工信息">
+</form>
+
+<h3>5、添加员工信息：       POST /employee</h3>
+<form th:action="@{/employee}" method="post">
+    lastName：<input type="text" name="lastName"><br>
+    email：<input type="text" name="email"><br>
+    gender：<input type="radio" name="gender" value="1">Male
+    <input type="radio" name="gender" value="0">Female<br>
+    <input type="submit" value="添加员工信息">
+</form>
+<hr/>
+</body>
+</html>

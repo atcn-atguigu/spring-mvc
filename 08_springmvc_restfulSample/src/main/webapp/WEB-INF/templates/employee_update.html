@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改员工</title>
+</head>
+<body>
+
+<h3>2、根据id查询员工信息：  GET /employee/{id}</h3>
+<p th:text="${employeeByIdData}"></p>
+<hr/>
+
+<h3>4、修改员工信息：       PUT /employee</h3>
+<form th:action="@{/employee}" method="post">   <!-- form 表单仅支持get和post，写成其他仍为默认get-->
+    <input type="hidden" name="_method" value="PUT">    <!-- 这行能触发HiddenHttpMethodFilter来发送PUT请求 -->
+    <input type="hidden" name="id" th:value="${employeeByIdData.id}">   <!-- id值不变，所以使用原来的，不显示修改 -->
+    lastName：<input type="text" name="lastName" th:value="${employeeByIdData.lastName}"><br>
+    email：<input type="text" name="email" th:value="${employeeByIdData.email}"><br>
+    <!-- 使用 th:field 来回显radio已经选择的数值 -->
+    gender：<input type="radio" name="gender" value="1" th:field="${employeeByIdData.gender}">Male
+    <input type="radio" name="gender" value="0" th:field="${employeeByIdData.gender}">Female<br>
+    <input type="submit" value="修改员工信息">
+</form>
+</body>
+</html>

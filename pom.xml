@@ -17,6 +17,7 @@
         <module>05_springmvc_view</module>
         <module>06_springmvc_view-jsp</module>
         <module>07_springmvc_restful</module>
+        <module>08_springmvc_restfulSample</module>
     </modules>
 
 </project>

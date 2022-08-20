@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>success成功页</title>
+</head>
+<body>
+<h1>成功页</h1>
+<h3>1、查询所有员工信息：    GET /employee</h3>
+<h4>写法 1 - 直接展示员工数据</h4>
+<p th:text="${allEmployeesData}"></p>   <!-- 直接展示mv属性对象 -->
+<h4>写法 2 - 使用table展示员工数据</h4>
+<table id="dataTable" border="1" cellspacing="0" cellpadding="0" style="text-align: center">
+    <tr>
+        <th colspan="5">Employee Info</th>  <!-- 表头行1 -->
+    </tr>
+    <tr>
+        <th>id</th>       <!-- 表头行2 -->
+        <th>lastName</th>
+        <th>email</th>
+        <th>gender</th>
+        <th>options（<a th:href="@{/toAdd}">添加员工</a>）</th>   <!-- 添加员工按钮，试图控制在springMVC.xml配置 -->
+    </tr>
+    <tr th:each="employee : ${allEmployeesData}">   <!-- 用thymeleaf遍历数据（mv属性对象） -->
+        <td th:text="${employee.id}"></td>
+        <td th:text="${employee.lastName}"></td>
+        <td th:text="${employee.email}"></td>
+        <td th:text="${employee.gender}"></td>
+        <td>
+            <a @click="deleteEmployee" th:href="@{'/employee/'+${employee.id}}">delete</a>  <!-- 写法2：点击事件 -->
+            <!-- 2、根据id查询员工信息： GET /employee/1001，控制器里控制视图跳转到employee_update.html页面来处理修改 -->
+            <a th:href="@{'/employee/'+${employee.id}}">update</a>
+        </td>
+    </tr>
+</table>
+<form id="deleteForm" method="post">    <!-- table对应delete方法 -->
+    <input type="hidden" name="_method" value="delete">
+</form>
+<hr/>
+
+<h3>3、根据id删除员工信息：  DELETE /employee/1002 -- 更新结果看1的表格数据</h3>
+<hr/>
+<h3>4、修改员工信息：       PUT /employee -- 更新结果看1的表格数据</h3>
+<hr/>
+
+
+<!-- Vue 配置用于超链接事件处理-->
+<script type="text/javascript" th:src="@{/static/js/vue.js}"></script>
+<script type="text/javascript">
+    var vue = new Vue({
+        el: "#dataTable", // Vue绑定页面table元素
+        methods: {
+            // 删除员工的超链接，点击事件触发的方法"deleteEmployee"
+            deleteEmployee:function(event) {
+                // 根据id获取form元素
+                let deleteForm = document.getElementById("deleteForm");
+                // 将触发点击事件的超链接的href，属性赋值给form表单的action
+                deleteForm.action = event.target.href;
+                deleteForm.submit(); // 提交表单
+                /**
+                 * html部分标签带有默认行为，
+                 * 例如超链接：点击之后，就算有绑定的点击事件，它仍然会跳转页面。
+                 * 例如form表单：点击submit之后，先执行点击事件，再提交表单。
+                 */
+                event.preventDefault(); // 阻止超链接的默认跳转行为
+            }
+        }
+    })
+</script>
+</body>
+</html>
