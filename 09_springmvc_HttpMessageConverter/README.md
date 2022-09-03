@@ -227,7 +227,9 @@ index.html
 ```
 file.html
 ```html
+<h3>1、文件下载</h3>
 <a th:href="@{/testDownload}">下载1.jpg</a>
+<hr/>
 ```
 ```java
 @Controller
@@ -261,5 +263,55 @@ public class FileDownloadAndUpload {
 ```
 
 #### 2、文件上传
+文件上传要求form表单的请求方式必须为post，并且添加属性enctype=“multipart/form-data”
 
+SpringMVC中将上传的文件封装到MultipartFile对象中，通过此对象可以获取文件相关信息
 
+上传步骤：
+
+a> 添加依赖：
+```xml
+<!-- 文件上传依赖 -->
+<dependency>
+    <groupId>commons-fileupload</groupId>
+    <artifactId>commons-fileupload</artifactId>
+    <version>1.4</version>
+</dependency>
+```
+b> 在SpringMVC的配置文件中添加配置：
+```xml
+    <!-- 必须通过文件解析器的解析才能将文件转换为MultipartFile对象 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+```
+c> 控制器方法：
+```java
+    @RequestMapping("/testUpload")
+    public String testUp(MultipartFile uploadFile, HttpSession session) throws IOException {
+        String name = uploadFile.getName(); // 获取上传文件的key名：uploadFile
+        //获取上传的文件的文件名
+        String fileName = uploadFile.getOriginalFilename();
+        //处理文件重名问题，若不处理，则文件会被覆盖写入
+        String hzName = fileName.substring(fileName.lastIndexOf("."));
+        fileName = UUID.randomUUID().toString() + hzName;   // 防止上传文件重名，使用UUID
+        //获取服务器中photo目录的路径
+        ServletContext servletContext = session.getServletContext();
+        String uploadFilePath = servletContext.getRealPath(name);   // getRealPath部署路径下的上传文件夹名称，此处使用"uploadFile"
+        File file = new File(uploadFilePath);
+        if(!file.exists()){
+            file.mkdir();   // 若"uploadFile"文件夹目录不存在，则创建一个
+        }
+        String finalPath = uploadFilePath + File.separator + fileName;
+        //实现上传功能
+        uploadFile.transferTo(new File(finalPath)); // 拷贝文件上传到服务器目录
+        return "success";
+    }
+```
+d> file.html
+```html
+<h3>2、文件上传</h3>
+<form th:action="@{/testUpload}" method="post" enctype="multipart/form-data">
+    上传文件：<input type="file" name="uploadFile"><br>
+    <input type="submit" value="上传">
+</form>
+<hr/>
+```

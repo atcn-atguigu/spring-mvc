@@ -6,12 +6,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 @Controller
 public class FileDownloadAndUpload {
@@ -39,5 +42,26 @@ public class FileDownloadAndUpload {
         //关闭输入流
         is.close();
         return responseEntity;
+    }
+
+    @RequestMapping("/testUpload")
+    public String testUp(MultipartFile uploadFile, HttpSession session) throws IOException {
+        String name = uploadFile.getName(); // 获取上传文件的key名：uploadFile
+        //获取上传的文件的文件名
+        String fileName = uploadFile.getOriginalFilename();
+        //处理文件重名问题，若不处理，则文件会被覆盖写入
+        String hzName = fileName.substring(fileName.lastIndexOf("."));
+        fileName = UUID.randomUUID().toString() + hzName;   // 防止上传文件重名，使用UUID
+        //获取服务器中photo目录的路径
+        ServletContext servletContext = session.getServletContext();
+        String uploadFilePath = servletContext.getRealPath(name);   // getRealPath部署路径下的上传文件夹名称，此处使用"uploadFile"
+        File file = new File(uploadFilePath);
+        if(!file.exists()){
+            file.mkdir();   // 若"uploadFile"文件夹目录不存在，则创建一个
+        }
+        String finalPath = uploadFilePath + File.separator + fileName;
+        //实现上传功能
+        uploadFile.transferTo(new File(finalPath)); // 拷贝文件上传到服务器目录
+        return "success";
     }
 }
