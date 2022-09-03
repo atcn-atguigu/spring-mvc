@@ -18,6 +18,7 @@
         <module>06_springmvc_view-jsp</module>
         <module>07_springmvc_restful</module>
         <module>08_springmvc_restfulSample</module>
+        <module>09_springmvc_HttpMessageConverter</module>
     </modules>
 
 </project>
