@@ -65,5 +65,24 @@ username=root&password=123456
 ```
 
 #### 3、@ResponseBody（常用） - 将响应报文中的java对象转换成响应体
+@ResponseBody用于标识一个控制器方法，可以将该方法的返回值直接作为响应报文的响应体响应到浏览器
+
+其他方法：除了使用SpringMVC的注解实现外，也可以用Servlet原生类HttpServletResponse来处理。
+##### 1）Servlet原生类HttpServletResponse来处理
+```html
+<h3>3.1、测试HttpServletResponse</h3>
+<a th:href="@{/testHttpServletResponse}">通过servlet API的response对象响应浏览器数据</a>
+<hr/>
+```
+```java
+    @RequestMapping(value = "/testHttpServletResponse")
+    public void testHttpServletResponse(HttpServletResponse httpServletResponse) throws IOException {
+        httpServletResponse.getWriter().print("Hello httpServletResponse"); // print的内容作为响应体内容返回给页面
+    }
+```
+
+##### 2）SpringMVC的@ResponseBody注解来处理
+
+
 
 #### 4、ResponseEntity（常用） - 响应实体（包含body和headers）
