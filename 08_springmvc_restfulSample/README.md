@@ -362,3 +362,94 @@ employee_update.html - 更新员工视图
 </body>
 </html>
 ```
+#### 4、SpringMVC - 静态资源处理过程
+复习视频：https://www.bilibili.com/video/BV1Ry4y1574R?p=65
+
+1）添加完"src/main/webapp/static/js/vue.js" 文件后，运行时无法找到文件，需要重新mvn package，静态资源才能在target folder下（"target/08_springmvc_restfulSample-1.0-SNAPSHOT/static/js/vue.js"）生成。
+
+2）查看springMVC.xml下配置，其实web静态资源原本是交给"default-servlet-handler"来处理的，可查看tomcat安装目录下的"conf/web.xml"）
+如果工程目录下的web.xml与tomcat目录下的web.xml配置有冲突，则以工程目录下为优先，工程继承重写了tomcat目录下的web.xml
+
+**DispatchServlet主要处理控制器请求，DefaultServlet主要处理静态资源请求。顺序是先从DispatchServlet找，若找不到，则从DefaultServlet找是否是静态资源。
+
+_springMVC.xml_
+```xml
+<!-- 处理静态资源，例如html、js、css、jpg
+    若只设置该标签，则只能访问静态资源，其他请求则无法访问
+    此时必须设置<mvc:annotation-driven/>解决问题
+-->
+<mvc:default-servlet-handler/>
+<mvc:annotation-driven/> <!-- ⚠️，如果不加这行，则静态资源可以访问，控制器相关注解资源无法访问。这两行配置用于SpringMVC的DispatcherServlet在控制器找不到，则交给taomcat的DefaultServlet处理 -->
+```
+_tomcat目录/conf/web.xml_
+```xml
+<!-- line from 103 to 115, tomcat DefaultServlet配置 -->
+    <servlet>
+        <servlet-name>default</servlet-name>
+        <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>0</param-value>
+        </init-param>
+        <init-param>
+            <param-name>listings</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+<!-- line from 246 to 258, tomcat JspServlet配置，处理对JSP的访问 -->
+    <servlet>
+        <servlet-name>jsp</servlet-name>
+        <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+        <init-param>
+            <param-name>fork</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
+            <param-name>xpoweredBy</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+<!-- line from 388, tomcat 映射信息 -->
+    <!-- ================ Built In Servlet Mappings ========================= -->
+    <!-- The mapping for the default servlet -->
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/</url-pattern>    <!-- ⚠️ pattern是斜线 -->
+    </servlet-mapping>
+
+    <!-- The mappings for the JSP servlet -->
+    <servlet-mapping>
+        <servlet-name>jsp</servlet-name>
+        <url-pattern>*.jsp</url-pattern>
+        <url-pattern>*.jspx</url-pattern>
+    </servlet-mapping>
+```
+_工程重写后的web.xml_
+```xml
+<!-- DispatchServlet
+        配置SpringMVC的前端控制器，对浏览器发送的请求统一进行处理
+     -->
+    <servlet>
+        <servlet-name>springmvc</servlet-name> <!-- 和servlet-mapping的name保持一致 -->
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!-- 可通过init-param标签设置SpringMVC配置文件的位置和名称，若不配置，则SpringMVC配置默认在WEB-INF下
+            通过load-on-startup标签设置SpringMVC的前端控制器DisPatcherServlet的初始化时间点提前到tomcat启动时，
+            否则第一次访问servlet时再初始化，速度慢效率低下
+        -->
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:springMVC.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup> <!--和tomcat一块启动，值为1-->
+    </servlet>
+    <!-- 设置SpringMVC核心控制器所能处理的请求的请求路径
+        "/"所匹配的请求可以是"/a"、"/b"、".html"、".js"、".css"方式的请求路径
+        但是"/"不能匹配.jsp请求路径的请求(如果是使用"/*"则包括.jsp)，因为.jsb本质上就是servlet
+    -->
+    <servlet-mapping>
+        <servlet-name>springmvc</servlet-name> <!-- 和servlet的name保持一致 -->
+        <url-pattern>/</url-pattern>   <!-- ⚠️ pattern是斜线，如果工程上找不到，则交给tomcat上配置的DefaultServlet来处理 -->
+    </servlet-mapping>
+```
