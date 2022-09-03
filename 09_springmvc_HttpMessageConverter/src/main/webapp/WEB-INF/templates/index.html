@@ -23,13 +23,13 @@
 <h3>3.1、测试HttpServletResponse</h3>
 <a th:href="@{/testHttpServletResponse}">/testHttpServletResponse -> 通过servlet API的response对象响应浏览器数据</a>
 <hr/>
-<h3>3.2、测试@ResponseBody（响应字符串）</h3>
+<h3>3.2.1、测试@ResponseBody（响应字符串）</h3>
 <a th:href="@{/testResponseBody}">/testResponseBody -> 通过SpringMVC的@ResponseBody注解，响应浏览器数据（字符串）</a>
 <hr/>
-<h3>3.3、测试@ResponseBody（响应对象）</h3>
-<a th:href="@{/testResponseUser}">/testResponseUser -> 通过SpringMVC的@ResponseBody注解，响应浏览器数据（对象）</a>
+<h3>3.2.2、测试@ResponseBody（响应对象：json对象或json数组）</h3>
+<a th:href="@{/testResponseUser}">/testResponseUser -> 通过SpringMVC的@ResponseBody注解，响应浏览器数据（对象：json对象或json数组）</a>
 <hr/>
-<h3>3.4、测试@ResponseBody（响应ajax）</h3>
+<h3>3.2.3、测试@ResponseBody（响应ajax）</h3>
 <div id="app">
     <a @click="testAjax" th:href="@{/testAxios}">/testAxios -> 通过SpringMVC的@ResponseBody注解，响应浏览器数据（ajax）</a>
 </div>
@@ -58,6 +58,9 @@
         }
     })
 </script>
+<hr/>
+<h3>3.3、测试@RestController注解（@Controller + @ResponseBody）</h3>
+<a th:href="@{/testRestController}">/testRestController -> @RestController = @Controller + @ResponseBody</a>
 <hr/>
 </body>
 </html>

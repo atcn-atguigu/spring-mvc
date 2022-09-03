@@ -68,7 +68,7 @@ username=root&password=123456
 @ResponseBody用于标识一个控制器方法，可以将该方法的返回值直接作为响应报文的响应体响应到浏览器
 
 其他方法：除了使用SpringMVC的注解实现外，也可以用Servlet原生类HttpServletResponse来处理。
-##### 1）Servlet原生类HttpServletResponse来处理
+##### 3.1）Servlet原生类HttpServletResponse来处理
 ```html
 <h3>3.1、测试HttpServletResponse</h3>
 <a th:href="@{/testHttpServletResponse}">通过servlet API的response对象响应浏览器数据</a>
@@ -81,9 +81,9 @@ username=root&password=123456
     }
 ```
 
-##### 2.1）SpringMVC的@ResponseBody注解来处理(字符串)
+##### 3.2.1）SpringMVC的@ResponseBody注解来处理(字符串)
 ```html
-<h3>3.2、测试@ResponseBody</h3>
+<h3>3.2.1、测试@ResponseBody</h3>
 <a th:href="@{/testResponseBody}">/testResponseBody -> 通过SpringMVC的@ResponseBody注解，响应浏览器数据</a>
 <hr/>
 ```
@@ -95,10 +95,10 @@ username=root&password=123456
     }
 ```
 
-##### 2.2）SpringMVC的@ResponseBody注解来处理(json)
+##### 3.2.2）SpringMVC的@ResponseBody注解来处理(json)
 ```xml
-<h3>3.3、测试@ResponseBody（响应对象）</h3>
-<a th:href="@{/testResponseUser}">/testResponseUser -> 通过SpringMVC的@ResponseBody注解，响应浏览器数据（对象）</a>
+<h3>3.2.2、测试@ResponseBody（响应对象：json对象或json数组）</h3>
+<a th:href="@{/testResponseUser}">/testResponseUser -> 通过SpringMVC的@ResponseBody注解，响应浏览器数据（对象：json对象或json数组）</a>
 <hr/>
 ```
 ```java
@@ -116,7 +116,7 @@ username=root&password=123456
 ```
 @ResponseBody处理json的步骤：
 
-1）导入jackson的依赖
+a> 导入jackson的依赖
 ```xml
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -124,13 +124,13 @@ username=root&password=123456
             <version>2.11.4</version>
         </dependency>
 ```
-2）在SpringMVC的核心配置文件中开启mvc的注解驱动，此时在HandlerAdaptor中会自动装配一个消息转换器：MappingJackson2HttpMessageConverter，可以将响应到浏览器的Java对象转换为Json格式的字符串
+b> 在SpringMVC的核心配置文件中开启mvc的注解驱动，此时在HandlerAdaptor中会自动装配一个消息转换器：MappingJackson2HttpMessageConverter，可以将响应到浏览器的Java对象转换为Json格式的字符串
 ```xml
 <mvc:annotation-driven/>
 ```
-3）在处理器方法上使用@ResponseBody注解进行标识
+c> 在处理器方法上使用@ResponseBody注解进行标识
 
-4）将Java对象直接作为控制器方法的返回值返回，就会自动转换为Json格式的字符串（java代码如上）
+d> 将Java对象直接作为控制器方法的返回值返回，就会自动转换为Json格式的字符串（java代码如上）
 
 浏览器页面中展示的结果：
 ```json
@@ -143,10 +143,10 @@ username=root&password=123456
 }
 ```
 
-##### 2.3）SpringMVC的@ResponseBody注解来处理(ajax)
+##### 3.2.3）SpringMVC的@ResponseBody注解来处理(ajax)
 a>请求超链接：
 ```html
-<h3>3.4、测试@ResponseBody（响应ajax）</h3>
+<h3>3.2.3、测试@ResponseBody（响应ajax）</h3>
 <div id="app">
     <a @click="testAjax" th:href="@{/testAxios}">/testAxios -> 通过SpringMVC的@ResponseBody注解，响应浏览器数据（ajax）</a>
 </div>
@@ -188,6 +188,24 @@ c>控制器方法：
         System.out.println(username + "," + password);
         return "hello axios";
     }
+```
+
+##### @RestController注解
+@RestController注解是springMVC提供的一个复合注解，标识在控制器的类上，就相当于为类添加了@Controller注解，并且为其中的每个方法添加了@ResponseBody注解
+```html
+<h3>3.3、测试@RestController注解（@Controller + @ResponseBody）</h3>
+<a th:href="@{/testRestController}">/testRestController -> @RestController = @Controller + @ResponseBody</a>
+<hr/>
+```
+```java
+@RestController // 等于给该类下所有的方法都加上了（@Controller + @ResponseBody)
+public class TestRestController {
+
+    @RequestMapping("/testRestController")
+    public String testRestController() {
+        return "Test annotation:  @RestController = @Controller + @ResponseBody";
+    }
+}
 ```
 
 #### 4、ResponseEntity（常用） - 响应实体（包含body和headers）
