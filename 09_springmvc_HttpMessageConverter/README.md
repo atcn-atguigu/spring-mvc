@@ -96,6 +96,50 @@ username=root&password=123456
 ```
 
 ##### 2.2）SpringMVC的@ResponseBody注解来处理(json)
+```xml
+<h3>3.3、测试@ResponseBody（响应对象）</h3>
+<a th:href="@{/testResponseUser}">/testResponseUser -> 通过SpringMVC的@ResponseBody注解，响应浏览器数据（对象）</a>
+<hr/>
+```
+```java
+    @ResponseBody
+    @RequestMapping(value = "/testResponseUser")
+    public User testResponseUser() {
+        /**
+         * 若直接返回对象，浏览器无法识别返回对象类型（报错：HttpMessageNotWritableException），需要序列化转换成字符串或json才能被浏览器解析
+         *
+         * 解决方式：
+         * 引入jackson-databind依赖，re-import包后，重新启动tomcat（其实4步走，详细看README.md）
+         */
+        return new User(1001, "admin", "123456", 20, "男");
+    }
+```
+@ResponseBody处理json的步骤：
 
+1）导入jackson的依赖
+```xml
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.11.4</version>
+        </dependency>
+```
+2）在SpringMVC的核心配置文件中开启mvc的注解驱动，此时在HandlerAdaptor中会自动装配一个消息转换器：MappingJackson2HttpMessageConverter，可以将响应到浏览器的Java对象转换为Json格式的字符串
+```xml
+<mvc:annotation-driven/>
+```
+3）在处理器方法上使用@ResponseBody注解进行标识
 
+4）将Java对象直接作为控制器方法的返回值返回，就会自动转换为Json格式的字符串（java代码如上）
+
+浏览器页面中展示的结果：
+```json
+{
+    id: 1001,
+    username: "admin",
+    password: "123456",
+    age: 20,
+    sex: "男"
+}
+```
 #### 4、ResponseEntity（常用） - 响应实体（包含body和headers）

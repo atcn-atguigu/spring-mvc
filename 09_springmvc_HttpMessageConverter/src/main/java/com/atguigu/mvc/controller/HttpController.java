@@ -1,5 +1,6 @@
 package com.atguigu.mvc.controller;
 
+import com.atguigu.mvc.pojo.User;
 import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +35,19 @@ public class HttpController {
 
     @ResponseBody
     @RequestMapping(value = "/testResponseBody")
-    public String testResponseBody() throws IOException {
+    public String testResponseBody() {
         return "success"; // 返回响应内容"success"，如果没有注解@ResponseBody，则该内容会被认为是视图名称(注意内容字体)
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/testResponseUser")
+    public User testResponseUser() {
+        /**
+         * 若直接返回对象，浏览器无法识别返回对象类型（报错：HttpMessageNotWritableException），需要序列化转换成字符串或json才能被浏览器解析
+         *
+         * 解决方式：
+         * 引入jackson-databind依赖，re-import包后，重新启动tomcat（其实4步走，详细看README.md）
+         */
+        return new User(1001, "admin", "123456", 20, "男");
     }
 }

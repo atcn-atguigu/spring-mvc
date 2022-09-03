@@ -23,8 +23,11 @@
 <h3>3.1、测试HttpServletResponse</h3>
 <a th:href="@{/testHttpServletResponse}">/testHttpServletResponse -> 通过servlet API的response对象响应浏览器数据</a>
 <hr/>
-<h3>3.2、测试@ResponseBody</h3>
-<a th:href="@{/testResponseBody}">/testResponseBody -> 通过SpringMVC的@ResponseBody注解，响应浏览器数据</a>
+<h3>3.2、测试@ResponseBody（响应字符串）</h3>
+<a th:href="@{/testResponseBody}">/testResponseBody -> 通过SpringMVC的@ResponseBody注解，响应浏览器数据（字符串）</a>
+<hr/>
+<h3>3.3、测试@ResponseBody（响应对象）</h3>
+<a th:href="@{/testResponseUser}">/testResponseUser -> 通过SpringMVC的@ResponseBody注解，响应浏览器数据（对象）</a>
 <hr/>
 </body>
 </html>
