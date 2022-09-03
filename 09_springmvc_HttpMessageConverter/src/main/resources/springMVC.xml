@@ -57,4 +57,5 @@
             view-name：设置请求地址所对应的视图名称
     -->
     <mvc:view-controller path="/" view-name="index"></mvc:view-controller>
+    <mvc:view-controller path="/file" view-name="file"></mvc:view-controller>
 </beans>

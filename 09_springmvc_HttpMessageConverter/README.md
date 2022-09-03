@@ -209,3 +209,57 @@ public class TestRestController {
 ```
 
 #### 4、ResponseEntity（常用） - 响应实体（包含body和headers）
+ResponseEntity用于控制器方法的返回值类型，该控制器方法的返回值就是响应到浏览器的响应报文(可以自定义响应报文) - 查看文件下载例子
+
+### 九、文件上传和下载
+#### 1、文件下载
+使用**ResponseEntity**实现下载文件的功能
+
+springMVC.xml 视图控制配置
+```xml
+<mvc:view-controller path="/file" view-name="file"></mvc:view-controller>
+```
+index.html
+```html
+<h3>4、测试使用ResponseEntity实现下载文件的功能</h3>
+<a th:href="@{/file}">跳转到文件下载</a>
+<hr/>
+```
+file.html
+```html
+<a th:href="@{/testDownload}">下载1.jpg</a>
+```
+```java
+@Controller
+public class FileDownloadAndUpload {
+
+    @RequestMapping("/testDownload")
+    public ResponseEntity<byte[]> testResponseEntity(HttpSession session) throws IOException {
+        //获取ServletContext对象
+        ServletContext servletContext = session.getServletContext();
+        //获取服务器中文件的真实路径
+        String realPath = servletContext.getRealPath("/static/img/1.jpg"); // servlet上下文getRealPath() - 获取服务器部署路径
+        //创建输入流
+        InputStream is = new FileInputStream(realPath);
+        //创建字节数组
+        byte[] bytes = new byte[is.available()];    // 输入流available() - 创建长度为文件对应的字节数大小
+        //将流读到字节数组中
+        is.read(bytes);
+        //创建HttpHeaders对象设置响应头信息
+        MultiValueMap<String, String> headers = new HttpHeaders();
+        //设置要下载方式以及下载文件的名字
+        headers.add("Content-Disposition", "attachment;filename=1.jpg");    // 响应报文header，可设置下载的默认文件名
+        //设置响应状态码
+        HttpStatus statusCode = HttpStatus.OK;
+        //创建ResponseEntity对象
+        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(bytes, headers, statusCode); // ResponseEntity<byte[]> 响应报文类型
+        //关闭输入流
+        is.close();
+        return responseEntity;
+    }
+}
+```
+
+#### 2、文件上传
+
+
