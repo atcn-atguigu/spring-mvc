@@ -81,8 +81,21 @@ username=root&password=123456
     }
 ```
 
-##### 2）SpringMVC的@ResponseBody注解来处理
+##### 2.1）SpringMVC的@ResponseBody注解来处理(字符串)
+```html
+<h3>3.2、测试@ResponseBody</h3>
+<a th:href="@{/testResponseBody}">/testResponseBody -> 通过SpringMVC的@ResponseBody注解，响应浏览器数据</a>
+<hr/>
+```
+```java
+    @ResponseBody
+    @RequestMapping(value = "/testResponseBody")
+    public String testResponseBody() throws IOException {
+        return "success"; // 返回响应内容"success"，如果没有注解@ResponseBody，则该内容会被认为是视图名称(注意内容字体)
+    }
+```
 
+##### 2.2）SpringMVC的@ResponseBody注解来处理(json)
 
 
 #### 4、ResponseEntity（常用） - 响应实体（包含body和headers）

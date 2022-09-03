@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,5 +30,11 @@ public class HttpController {
     @RequestMapping(value = "/testHttpServletResponse")
     public void testHttpServletResponse(HttpServletResponse httpServletResponse) throws IOException {
         httpServletResponse.getWriter().print("Hello httpServletResponse"); // print的内容作为响应体内容返回给页面
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/testResponseBody")
+    public String testResponseBody() throws IOException {
+        return "success"; // 返回响应内容"success"，如果没有注解@ResponseBody，则该内容会被认为是视图名称(注意内容字体)
     }
 }
