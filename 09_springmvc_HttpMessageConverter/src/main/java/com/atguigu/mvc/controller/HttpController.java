@@ -28,19 +28,19 @@ public class HttpController {
         return "success";
     }
 
-    @RequestMapping(value = "/testHttpServletResponse")
+    @RequestMapping("/testHttpServletResponse")
     public void testHttpServletResponse(HttpServletResponse httpServletResponse) throws IOException {
         httpServletResponse.getWriter().print("Hello httpServletResponse"); // print的内容作为响应体内容返回给页面
     }
 
     @ResponseBody
-    @RequestMapping(value = "/testResponseBody")
+    @RequestMapping("/testResponseBody")
     public String testResponseBody() {
         return "success"; // 返回响应内容"success"，如果没有注解@ResponseBody，则该内容会被认为是视图名称(注意内容字体)
     }
 
     @ResponseBody
-    @RequestMapping(value = "/testResponseUser")
+    @RequestMapping("/testResponseUser")
     public User testResponseUser() {
         /**
          * 若直接返回对象，浏览器无法识别返回对象类型（报错：HttpMessageNotWritableException），需要序列化转换成字符串或json才能被浏览器解析
@@ -49,5 +49,12 @@ public class HttpController {
          * 引入jackson-databind依赖，re-import包后，重新启动tomcat（其实4步走，详细看README.md）
          */
         return new User(1001, "admin", "123456", 20, "男");
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/testAxios", method = RequestMethod.POST)
+    public String testAxios(String username, String password) {
+        System.out.println(username + "," + password);
+        return "hello axios";
     }
 }

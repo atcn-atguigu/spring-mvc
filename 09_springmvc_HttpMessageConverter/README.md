@@ -142,4 +142,52 @@ username=root&password=123456
     sex: "男"
 }
 ```
+
+##### 2.3）SpringMVC的@ResponseBody注解来处理(ajax)
+a>请求超链接：
+```html
+<h3>3.4、测试@ResponseBody（响应ajax）</h3>
+<div id="app">
+    <a @click="testAjax" th:href="@{/testAxios}">/testAxios -> 通过SpringMVC的@ResponseBody注解，响应浏览器数据（ajax）</a>
+</div>
+```
+b>通过vue和axios处理点击事件：
+```html
+<script type="text/javascript" th:src="@{/static/js/vue.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/axios.min.js}"></script>
+<script type="text/javascript">
+    new Vue({
+        el: "#app",
+        methods: {
+            // a标签点击事件函数
+            testAjax: function (event) {
+                axios({
+                    method: "post",         // 请求method
+                    url: event.target.href, // 请求URL（从a标签的href属性获取）
+                    params: {               // 请求参数
+                        username: "admin",
+                        password: "123456"
+                    }
+                }).then(
+                    // Ajax请求成功之后处理的函数
+                    function (response) {
+                        alert(response.data)    // 响应数据，在alert弹窗中显示
+                    })
+                event.preventDefault()  // 阻止页面跳转
+            }
+        }
+    })
+</script>
+<hr/>
+```
+c>控制器方法：
+```java
+    @ResponseBody
+    @RequestMapping(value = "/testAxios", method = RequestMethod.POST)
+    public String testAxios(String username, String password) {
+        System.out.println(username + "," + password);
+        return "hello axios";
+    }
+```
+
 #### 4、ResponseEntity（常用） - 响应实体（包含body和headers）
