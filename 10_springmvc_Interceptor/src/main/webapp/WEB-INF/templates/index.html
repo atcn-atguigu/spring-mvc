@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>index首页</title>
+</head>
+<body>
+<h3>加载首页"/"，若拦截器配置没有exclude，则同样会被拦截器apply拦截</h3>
+<a th:href="@{/testInterceptor}">/testInterceptor（/**/testInterceptor）,测试一级URL路径，看是否拦截，需要拦截器规则配置为"/*"或"/**"</a><br>
+<a th:href="@{/a/testInterceptor}">/a/testInterceptor（/**/testInterceptor）, 测试二级URL路径，看是否拦截，需要拦截器规则配置为"/**"</a><br>
+<a th:href="@{/a/b/testInterceptor}">/a/b/testInterceptor（/**/testInterceptor）, 测试三级URL路径，看是否拦截，需要拦截器规则配置为"/**"</a><br>
+</body>
+</html>
