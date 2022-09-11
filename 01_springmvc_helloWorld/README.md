@@ -1,5 +1,3 @@
-笔记： https://blog.csdn.net/weixin_44751434/article/details/119358203?spm=1001.2014.3001.5501
-
 ### 一、SpringMVC简介
 #### 1、什么是MVC
 MVC是一种软件架构的思想，将软件按照模型、视图、控制器来划分
