@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>index首页</title>
+</head>
+<body>
+<h1>首页</h1>
+
+<h2>----------视图解析----------</h2>
+<h3>1、ThymeleafView</h3>
+<a th:href="@{/testThymeleafView}">测试 "/testThymeleafView -- return "success";" --> success.html</a><br/>
+<hr/>
+<h3>2、forward - InternalResourceView</h3>
+<a th:href="@{/testForward_InternalResourceView}">测试 "/testForward_InternalResourceView -- return "forward:/hello";" --> success.html</a><br/>
+<hr/>
+<h3>3、redirect - RedirectView</h3>
+<a th:href="@{/testRedirect_RedirectView}">测试 "/testRedirect_RedirectView -- return "redirect:/hello";" --> success.html</a><br/>
+<hr>
+
+<h2>----------文件上传下载----------</h2>
+<h3>测试使用ResponseEntity实现上传下载文件的功能</h3>
+<a th:href="@{/file}">跳转到文件下载</a>
+<hr>
+
+<h2>----------拦截器----------</h2>
+<h3>加载首页"/"，若拦截器配置没有exclude，则同样会被拦截器apply拦截</h3>
+<a th:href="@{/testInterceptor}">/testInterceptor（/**/testInterceptor）,测试一级URL路径，看是否拦截，需要拦截器规则配置为"/*"或"/**"</a><br>
+<a th:href="@{/a/testInterceptor}">/a/testInterceptor（/**/testInterceptor）, 测试二级URL路径，看是否拦截，需要拦截器规则配置为"/**"</a><br>
+<a th:href="@{/a/b/testInterceptor}">/a/b/testInterceptor（/**/testInterceptor）, 测试三级URL路径，看是否拦截，需要拦截器规则配置为"/**"</a><br>
+<hr>
+
+<h2>----------异常处理----------</h2>
+<h3>测试自定义处理异常解析器，使用继承了HandlerExceptionResolver接口的SpringMVC自定义的异常处理器"SimpleMappingExceptionResolver"</h3>
+<a th:href="@{/testHandlerExceptionResolver}">/testHandlerExceptionResolver ，测试处理异常解析，捕获ArithmeticException异常，并解析视图到error页面</a>
+</body>
+</html>
