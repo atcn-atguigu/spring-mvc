@@ -20,6 +20,7 @@
         <module>08_springmvc_restfulSample</module>
         <module>09_springmvc_HttpMessageConverter</module>
         <module>10_springmvc_Interceptor</module>
+        <module>11_springmvc_HandlerExceptionResolver_xml</module>
     </modules>
 
 </project>

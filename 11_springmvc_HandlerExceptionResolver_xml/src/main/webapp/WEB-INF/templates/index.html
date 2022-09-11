@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>index首页</title>
+</head>
+<body>
+<h1>首页</h1>
+<h3>测试自定义处理异常解析器，使用继承了HandlerExceptionResolver接口的SpringMVC自定义的异常处理器"SimpleMappingExceptionResolver"</h3>
+<a th:href="@{/testHandlerExceptionResolver}">/testHandlerExceptionResolver ，测试处理异常解析，捕获ArithmeticException异常，并解析视图到error页面</a>
+</body>
+</html>
