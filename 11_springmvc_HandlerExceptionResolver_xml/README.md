@@ -1,5 +1,5 @@
 ### 十一、异常处理器
-#### 1、基于配置的异常处理
+#### 1、基于配置的异常处理（xml）
 SpringMVC提供了一个处理控制器方法执行过程中所出现的异常的接口：HandlerExceptionResolver
 
 HandlerExceptionResolver接口的实现类有：**DefaultHandlerExceptionResolver** 和 **SimpleMappingExceptionResolver**

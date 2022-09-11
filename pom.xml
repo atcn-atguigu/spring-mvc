@@ -21,6 +21,7 @@
         <module>09_springmvc_HttpMessageConverter</module>
         <module>10_springmvc_Interceptor</module>
         <module>11_springmvc_HandlerExceptionResolver_xml</module>
+        <module>12_springmvc_HandlerExceptionResolver_annotations</module>
     </modules>
 
 </project>
