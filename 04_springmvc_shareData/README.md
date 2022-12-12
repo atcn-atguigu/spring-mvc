@@ -39,17 +39,9 @@ public class ObjDataShareScope_01_OriginServletAPI {
 </html>
 ```
 ```html
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>success成功页</title>
-</head>
-<body>
-<h1>成功页</h1>
+<h3>1、request域: Servlet API</h3>
 <!-- 视图接收Servlet API request域对象共享的数据，thymeleaf只能解析属性上大括号的值，所以不能写在p标签内部 -->
 <p th:text="${testServletAPIAttributeData}"></p>
-</body>
 </html>
 ```
 #### 2、使用ModelAndView向request域对象共享数据
@@ -73,7 +65,7 @@ public class ObjDataShareScope_02_ModelAndView {
 <a th:href="@{/testScopeOfModelAndView}">测试使用ModelAndView类，值传递返回给视图页面success.html, "/testScopeOfModelAndView" --> success.html</a><br/>
 ```
 ```html
-<h3>2、Model And View</h3>
+<h3>2、request域：Model And View</h3>
 <p th:text="${modelAndViewScopeData}"></p>
 ```
 
@@ -94,7 +86,7 @@ public class ObjDataShareScope_03_Model {
 <a th:href="@{/testScopeOfModel}">测试使用方法形参Model，值传递返回给视图页面success.html, "/testScopeOfModel" --> success.html</a><br/>
 ```
 ```html
-<h3>3、Model</h3>
+<h3>3、request域：Model</h3>
 <p th:text="${modelAttributeData}"></p>
 ```
 
@@ -115,7 +107,7 @@ public class ObjDataShareScope_04_Map {
 <a th:href="@{/testScopeOfMap}">测试使用方法形参Map，值传递返回给视图页面success.html, "/testScopeOfMap" --> success.html</a><br/>
 ```
 ```html
-<h3>4、Map</h3>
+<h3>4、request域：Map</h3>
 <p th:text="${mapData}"></p>
 ```
 
@@ -137,7 +129,7 @@ public class ObjDataShareScope_05_ModelMap {
 <a th:href="@{/testScopeOfModelMap}">测试使用方法形参ModelMap，值传递返回给视图页面success.html, "/testScopeOfModelMap" --> success.html</a><br/>
 ```
 ```html
-<h3>5、ModelMap</h3>
+<h3>5、request域：ModelMap</h3>
 <p th:text="${modelMapAttributeData}"></p>
 <p th:text="${modelMapPutData}"></p>
 ```
@@ -173,7 +165,7 @@ public class ObjDataShareScope_07_Session_HttpSession {
 <a th:href="@{/testSession}">测试使用原生Servlet API，值保存与session共享传递返回给视图页面success.html, "/testSession" --> success.html</a><br/>
 ```
 ```html
-<h3>7、Session(推荐使用的原生Servlet API，而不是Spring MVC的注解@SessionAttribute）</h3>
+<h3>7、session域：Session(推荐使用的原生Servlet API，而不是Spring MVC的注解@SessionAttribute）</h3>
 <!-- 通过session.属性值来获取session的信息 -->
 <p th:text="${session.testSessionScope}"></p>
 ```
@@ -200,7 +192,46 @@ public class ObjDataShareScope_08_Application_ServletContext {
 <a th:href="@{/testApplication}">测试使用原生Servlet API，值保存于application共享传递返回给视图页面success.html, "/testApplication" --> success.html</a><br/>
 ```
 ```html
-<h3>8、application</h3>
+<h3>8、application域；application</h3>
 <!-- 通过application.属性值来获取application的信息 -->
 <p th:text="${application.testApplicationScope}"></p>
+```
+
+
+#### 9、@RequestAttribute形参读取请求域中的数据
+```java
+@Controller
+public class ObjDataShareScope_09_Annotations_RequestAttribute {
+
+    // ServletContext应用范围是整个应用范围
+    @GetMapping("/testAnnotationRequestAttribute")
+    public String testAnnotationRequestAttribute(HttpServletRequest httpServletRequest) {
+        httpServletRequest.setAttribute("msg", "成功");
+        httpServletRequest.setAttribute("code", "200");
+        // 为了传递请求域中的属性值，这里使用forward转发，在另一个方法里使用@RequestAttribute获取请求域中的属性值
+        return "forward:/readRequestAttribute";
+    }
+
+    @GetMapping("/readRequestAttribute")
+    public String readAttribute(@RequestAttribute("msg") String msg,
+                                @RequestAttribute("code") Integer code,
+                                HttpServletRequest httpServletRequest) {
+        // 使用Map返回给浏览器，更方便打印更多数据
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("context_msg", msg);
+        map.put("context_code", code);
+        System.out.println("@RequestAttribute注解读取的值为：" + map);
+        // request域共享数据，渲染视图success页展示数据
+        httpServletRequest.setAttribute("readRequestAttributeScope", map);
+        return "success";
+    }
+}
+```
+```html
+<h3>9、@RequestAttribute获取request域对象共享数据</h3>
+<a th:href="@{/testAnnotationRequestAttribute}">测试使用方法形参使用 @RequestAttribute("k") String v，获取request域共享属性值，值传递返回, "/testAnnotationRequestAttribute" forward "/readRequestAttribute"</a><br/>
+```
+```html
+<h3>9、request域：@RequestAttribute</h3>
+<p th:text="${readRequestAttributeScope}"></p>
 ```

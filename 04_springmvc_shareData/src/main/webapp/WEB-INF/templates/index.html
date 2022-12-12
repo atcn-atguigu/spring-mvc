@@ -27,5 +27,8 @@
 <h3>8、Application(ServletContext - 通过Servlet API获取ServletContext向application域对象共享数据</h3>
 <a th:href="@{/testApplication}">测试使用原生Servlet API，值保存于application共享传递返回给视图页面success.html, "/testApplication" --> success.html</a><br/>
 <hr/>
+<h3>9、@RequestAttribute获取request域对象共享数据</h3>
+<a th:href="@{/testAnnotationRequestAttribute}">测试使用方法形参使用 @RequestAttribute("k") String v，获取request域共享属性值，值传递返回, "/testAnnotationRequestAttribute" forward "/readRequestAttribute"</a><br/>
+<hr/>
 </body>
 </html>
