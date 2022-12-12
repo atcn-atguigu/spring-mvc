@@ -233,10 +233,10 @@ public class RequestMappingController_06_HeaderTest {
 ```
 ```xml
 <h3>@RequestMapping注解的"header"属性</h3>
-<a th:href="@{/testRequestHeader/mustHaveHeader}">测试@RequestMapping注解的params属性，“param”：必须携带param参数： "/testRequestHeader/mustHaveHeader, Header:Accept（浏览器发）" --> success.html</a><br/>
-<a th:href="@{/testRequestHeader/canNotHaveHeader}">测试@RequestMapping注解的params属性，“!param”：不能携带param参数： "/testRequestHeader/canNotHaveHeader, Header:Upgrade-Insecure-Requests（浏览器发）" --> success.html(⚠️❌）</a><br/>
-<a th:href="@{/testRequestHeader/headerKeyValueMatch}">测试@RequestMapping注解的params属性，“param=value”：必须携带param请求参数且param=value： "/testRequestHeader/headerKeyValueMatch, Header:Host=localhost:8080（浏览器发）" --> success.html</a><br/>
-<a th:href="@{/testRequestHeader/headerKeyValueNotMatch}">测试@RequestMapping注解的params属性，“param!=value”：必须携带param请求参数但是param!=value： "/testRequestHeader/headerKeyValueNotMatch, Header:Host=localhost:8080（浏览器发）" --> success.html(⚠️❌）</a><br/>
+<a th:href="@{/testRequestHeader/mustHaveHeader}">测试@RequestMapping注解的header属性，“header”：必须携带header请求参数： "/testRequestHeader/mustHaveHeader, headers = {"Accept"} （浏览器会默认携带Accept请求头）" --> success.html</a><br/>
+<a th:href="@{/testRequestHeader/canNotHaveHeader}">测试@RequestMapping注解的header属性，“!header”：不能携带header请求参数： "/testRequestHeader/canNotHaveHeader, headers = {"!Upgrade-Insecure-Requests"}  （浏览器会默认携带Upgrade-Insecure-Requests请求头）" --> success.html(⚠️❌)</a><br/>
+<a th:href="@{/testRequestHeader/headerKeyValueMatch}">测试@RequestMapping注解的header属性，“header=value”：必须携带header请求参数且header=value： "/testRequestHeader/headerKeyValueMatch, headers = {"Host=localhost:8080"} （浏览器会默认携带Host请求头）" --> success.html</a><br/>
+<a th:href="@{/testRequestHeader/headerKeyValueNotMatch}">测试@RequestMapping注解的header属性，“header!=value”：必须携带header请求参数但是header!=value： "/testRequestHeader/headerKeyValueNotMatch, headers = {"Host!=localhost:8080"} （浏览器会默认携带Host请求头）" --> success.html(⚠️❌）</a><br/>
 <hr/>
 ```
 ```plain/text
