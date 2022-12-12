@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -23,9 +24,16 @@ public class FetchReqArgs_05_CookieValueAnnotation {
     }
 
     // 执行完上面第一条pre-condition后，执行这条，请求头会带header：Cookie: JSESSIONID=769D3E95CD894DFAB89B7B055B2FE867
-    @RequestMapping("/testCookieValueTag")
-    public String testRequestParamTag(@CookieValue("JSESSIONID") String jSessionIDCookie) {
-        System.out.println("Cookie-JSESSIONID：" + jSessionIDCookie); // Cookie-JSESSIONID：769D3E95CD894DFAB89B7B055B2FE867
+    @RequestMapping("/testCookieValueTagString")
+    public String testRequestParamTag(@CookieValue("JSESSIONID") String jSessionIDCookie) { // String类型
+        System.out.println("Cookie中的JSESSIONID值为：" + jSessionIDCookie); // Cookie中的JSESSIONID值为：769D3E95CD894DFAB89B7B055B2FE867
+        return "success";
+    }
+
+    // 执行完上面第一条pre-condition后，执行这条，请求头会带header：Cookie: JSESSIONID=769D3E95CD894DFAB89B7B055B2FE867
+    @RequestMapping("/testCookieValueTagCookie")
+    public String testCookieValueTagCookie(@CookieValue("JSESSIONID") Cookie cookie) {  // Cookie类型
+        System.out.println("Cookie中的JSESSIONID值为：" + cookie.getValue()); // Cookie中的JSESSIONID值为：769D3E95CD894DFAB89B7B055B2FE867
         return "success";
     }
 

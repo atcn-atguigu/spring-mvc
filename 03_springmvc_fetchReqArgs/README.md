@@ -211,9 +211,16 @@ public class FetchReqArgs_05_CookieValueAnnotation {
     }
 
     // 执行完上面第一条pre-condition后，执行这条，请求头会带header：Cookie: JSESSIONID=769D3E95CD894DFAB89B7B055B2FE867
-    @RequestMapping("/testCookieValueTag")
-    public String testRequestParamTag(@CookieValue("JSESSIONID") String jSessionIDCookie) {
-        System.out.println("Cookie-JSESSIONID：" + jSessionIDCookie); // Cookie-JSESSIONID：769D3E95CD894DFAB89B7B055B2FE867
+    @RequestMapping("/testCookieValueTagString")
+    public String testRequestParamTag(@CookieValue("JSESSIONID") String jSessionIDCookie) { // String类型
+        System.out.println("Cookie中的JSESSIONID值为：" + jSessionIDCookie); // Cookie中的JSESSIONID值为：769D3E95CD894DFAB89B7B055B2FE867
+        return "success";
+    }
+
+    // 执行完上面第一条pre-condition后，执行这条，请求头会带header：Cookie: JSESSIONID=769D3E95CD894DFAB89B7B055B2FE867
+    @RequestMapping("/testCookieValueTagCookie")
+    public String testCookieValueTagCookie(@CookieValue("JSESSIONID") Cookie cookie) {  // Cookie类型
+        System.out.println("Cookie中的JSESSIONID值为：" + cookie.getValue()); // Cookie中的JSESSIONID值为：769D3E95CD894DFAB89B7B055B2FE867
         return "success";
     }
 
@@ -239,7 +246,8 @@ public class FetchReqArgs_05_CookieValueAnnotation {
 ```html
 <h3>5. @CookieValue 获取请求的cookie (用法同上)</h3>
 <a th:href="@{/testCreateSessionCookieAndStoreToBrowser}">原生ServletAPI创建cookie， "/testCreateSessionCookieAndStoreToBrowser" --> success.html</a><br/>
-<a th:href="@{/testCookieValueTag}">前端发送请求，获取前端发送请求自带的cookie，控制器方法形参通过注解@CookieValue映射成变量名"cookie"， "/testCookieValueTag" --> success.html</a><br/>
+<a th:href="@{/testCookieValueTagString}">前端发送请求，获取前端发送请求自带的cookie，控制器方法形参通过注解@CookieValue映射成变量名"cookie"（String类型）， "/testCookieValueTagString" --> success.html</a><br/>
+<a th:href="@{/testCookieValueTagCookie}">前端发送请求，获取前端发送请求自带的cookie，控制器方法形参通过注解@CookieValue映射成变量名"cookie"（Cookie类型）， "/testCookieValueTagCookie" --> success.html</a><br/>
 <a th:href="@{/testCookieValueTagRequired}">前端发送请求不含cookie的header名"NotExistCookieValue"，控制器方法形参通过注解@RequestHeader映射成变量名映射成变量名"notExistCookieValue"，不传参数required = false（默认true） "/testCookieValueTagRequired" --> success.html</a><br/>
 <a th:href="@{/testRequestHeaderTagDefaultValue}">前端发送请求不含cookie的header名"NotExistCookieValue"，设置cookie "NotExistCookieValue"默认值hello "/testCookieValueTagDefaultValue" --> success.html</a><br/>
 <p>Postman测试：前端发送请求带含cookie的header名"NotExistCookieValue"，值为空，同样认为是没有传参数，默认值hello "/testCookieValueTagDefaultValue2" --> success.html</p>

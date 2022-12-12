@@ -41,6 +41,7 @@
 <a th:href="@{/testRequestParamTagRequired}">前端发送请求参数为"user-name"，控制器方法形参通过注解@RequestParam映射成变量名"username"，不传参数required = false（默认true） "/testRequestParamTagRequired" --> success.html</a><br/>
 <a th:href="@{/testRequestParamTagDefaultValue}">前端发送请求不传参数为"user-name"，不传参数，默认值hello "/testRequestParamTagDefaultValue" --> success.html</a><br/>
 <a th:href="@{/testRequestParamTagDefaultValue2(user-name=)}">前端发送请求参数为"user-name="，值为空，同样认为是没有传参数，默认值hello "/testRequestParamTagDefaultValue2" --> success.html</a><br/>
+<a th:href="@{/testRequestParamTagMap(username='admin', password=123456)}">前端发送请求参数为"username='admin', password=123456"，"/testRequestParamTagMap"，使用@RequestParam的Map类型接收所有参数 --> success.html</a><br/>
 <hr/>
 <h3>4. @RequestHeader 获取请求的header (用法同上)</h3>
 <a th:href="@{/testRequestHeaderTag}">前端发送请求header为"Host: localhost:8080"，控制器方法形参通过注解@RequestHeader映射成变量名"host"， "/testRequestHeaderTag" --> success.html</a><br/>
@@ -53,7 +54,8 @@
 <hr/>
 <h3>5. @CookieValue 获取请求的cookie (用法同上)</h3>
 <a th:href="@{/testCreateSessionCookieAndStoreToBrowser}">原生ServletAPI创建cookie， "/testCreateSessionCookieAndStoreToBrowser" --> success.html</a><br/>
-<a th:href="@{/testCookieValueTag}">前端发送请求，获取前端发送请求自带的cookie，控制器方法形参通过注解@CookieValue映射成变量名"cookie"， "/testCookieValueTag" --> success.html</a><br/>
+<a th:href="@{/testCookieValueTagString}">前端发送请求，获取前端发送请求自带的cookie，控制器方法形参通过注解@CookieValue映射成变量名"cookie"（String类型）， "/testCookieValueTagString" --> success.html</a><br/>
+<a th:href="@{/testCookieValueTagCookie}">前端发送请求，获取前端发送请求自带的cookie，控制器方法形参通过注解@CookieValue映射成变量名"cookie"（Cookie类型）， "/testCookieValueTagCookie" --> success.html</a><br/>
 <a th:href="@{/testCookieValueTagRequired}">前端发送请求不含cookie的header名"NotExistCookieValue"，控制器方法形参通过注解@RequestHeader映射成变量名映射成变量名"notExistCookieValue"，不传参数required = false（默认true） "/testCookieValueTagRequired" --> success.html</a><br/>
 <a th:href="@{/testRequestHeaderTagDefaultValue}">前端发送请求不含cookie的header名"NotExistCookieValue"，设置cookie "NotExistCookieValue"默认值hello "/testCookieValueTagDefaultValue" --> success.html</a><br/>
 <p>Postman测试：前端发送请求带含cookie的header名"NotExistCookieValue"，值为空，同样认为是没有传参数，默认值hello "/testCookieValueTagDefaultValue2" --> success.html</p>
